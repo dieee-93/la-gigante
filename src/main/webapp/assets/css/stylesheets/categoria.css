@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+.category-index {
+	display:flex;
+	flex-flow: column nowrap;
+	justify-content:space-around;
+	
+}
+
+.btn{
+	width:200px;
+}
+
+.newcategory-div{
+	height: 300px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
