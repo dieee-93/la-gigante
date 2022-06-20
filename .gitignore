@@ -1,1 +1,6 @@
 /target/
+/.settings/
+lagigante.db
+.project
+.classpath
+.gitignore.txt
