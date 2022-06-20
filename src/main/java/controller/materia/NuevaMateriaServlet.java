@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.system.stockmanager.Materia;
 import services.CategoriaService;
 import services.MateriaService;
 import services.StockService;
@@ -40,11 +39,9 @@ public class NuevaMateriaServlet extends HttpServlet {
 		Double materiaUnidades = Double.parseDouble(req.getParameter("newMateria-unidades"));
 		String unidadDeMedida = req.getParameter("newMateria-unidadDeMedida-select");
 		
-		
-		Materia tmp_materia = materiaService.create(materiaName, materiaCategory, materia);
-		stockService.create(materiaService.findyByName(materiaName).getId(), modelo.getUnidades());
 
-		if (tmp_materia.isValid()) {
+
+		if (true) {
 			resp.sendRedirect("stock.do");
 		} else {
 			resp.sendRedirect("stock.do");

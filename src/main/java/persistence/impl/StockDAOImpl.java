@@ -6,13 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import model.system.stockmanager.Materia;
+import model.system.materiaprima.Materia;
 import model.system.stockmanager.Stock;
-import persistence.MateriaDAO;
+import persistence.StockDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;
 
-public class StockDAOImpl implements MateriaDAO {
+public class StockDAOImpl implements StockDAO  {
 
 	@Override
 	public List<Materia> findAll() {
@@ -22,13 +22,13 @@ public class StockDAOImpl implements MateriaDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 			
-			Stock.getInstance().getProductosEnStock().clear();;
+			Stock.getInstance().getMateriaEnStock().clear();;
 			while (resultados.next()) {
 				
 				this.toStock(resultados);
 			}
 			
-			return Stock.getInstance().getProductosEnStock();
+			return Stock.getInstance().getMateriaEnStockList();
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
@@ -43,10 +43,14 @@ public class StockDAOImpl implements MateriaDAO {
 			statement.setInt(1, id);
 			
 			ResultSet resultados = statement.executeQuery();
-
+			
+			
 			Materia materia = null;
-			if (resultados.next()) {
-				materia= Stock.getInstance().getMateriaById(id);
+			if (Stock.getInstance().getMateriaEnStock().containsKey(id)) {
+				Stock.getInstance().getMateriaEnStock().remove(id);
+				this.toStock(resultados);
+				materia = Stock.getInstance().getMateriaById(id);
+		
 			}
 
 			return materia;
@@ -56,19 +60,19 @@ public class StockDAOImpl implements MateriaDAO {
 	}
 	
 	private void toStock(ResultSet stockRegister) throws SQLException {
-			Stock.getInstance().addMateriaById(stockRegister.getInt(1), stockRegister.getDouble(2));
+			
+			Stock.getInstance().setMateriaEnStock(stockRegister.getInt(1), stockRegister.getString(2));
 	}
 
-	@Override
-	public int insert(Materia materia) {
+	public int insert(Materia mat) {
 		try {
 			String sql = "INSERT INTO STOCK (ID_MATERIAPRIMA, CANTIDAD) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
-			statement.setInt(i++, materia.getId());
-			statement.setDouble(i++, materia.getUnidades());
+			statement.setInt(i++, mat.getId());
+			statement.setDouble(i++, mat.getCantidad());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -86,8 +90,9 @@ public class StockDAOImpl implements MateriaDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
 			statement.setInt(i++, materia.getId());
-			statement.setDouble(i++, materia.getUnidades());
-		
+			statement.setDouble(i++, materia.getCantidad());
+			
+			statement.setInt(i++, materia.getId());
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -127,12 +132,6 @@ public class StockDAOImpl implements MateriaDAO {
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
-	}
-
-	@Override
-	public Materia findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

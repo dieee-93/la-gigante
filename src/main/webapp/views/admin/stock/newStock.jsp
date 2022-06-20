@@ -20,24 +20,28 @@
 		if(document.getElementById(id).style.display == "none")
 		{
 			document.getElementById(id).style.display = "block";
+			if (id == "newCategory-form"){
 			boton.innerText = "-";
-			boton.classList.replace('btn-success', 'btn-danger');
+			boton.classList.replace('btn-success', 'btn-danger');}
 		}
 		else {
 			document.getElementById(id).style.display = "none";
+			if (id == "newCategory-form"){
 			boton.innerText = "+";
 			boton.classList.replace('btn-danger', 'btn-success');
+			}
+		}
 		
 		}
 		
-	}
+	
 
 
 	function getTree() {
 
 		var data = ${categoriasJSON};
 		if (data.length == 0){
-			data = [{text: 'No existen categorias aún <button type="button" class="btn btn-success" id="newCategoryForm-btn"><i class="fa-solid fa-plus"></i></button>', icon: "fa-solid fa-circle-xmark"}];
+			data = [{text: 'No existen categorias aún <button type="button" class="btn btn-success float-end" id="newCategoryForm-btn"><i class="fa-solid fa-plus"></i></button>', icon: "fa-solid fa-circle-xmark"}];
 		}
 		return data;
 	}
@@ -62,21 +66,7 @@
 			<div class="col-6 newcategory-div">
 				<h3>Categorias</h3>
 				<form action="newCategory.do" method="post" id="newCategory-form" style="display:none;">
-
-					<input type="text" name="newcategory-name" /> <select
-						class="form-select" aria-label="Default select example"
-						name="category-select">
-						<option value="0" selected>Categoria principal</option>
-						<c:if test="${!mainCategory.getAllCategorias().isEmpty()}">
-							<c:forEach items="${mainCategory.getAllCategorias()}" var="cat">
-								<option value="${cat.id}">${cat.nombre}</option>
-							</c:forEach>
-						</c:if>
-
-					</select>
-					<button type="submit" class="btn btn-danger">Crear
-						Categoria</button>
-
+				<jsp:include page="/views/admin/stock/form/newCategory.jsp"></jsp:include>
 				</form>
 			<div id="treeview" class="js-treeview"></div>
 			</div>
@@ -97,35 +87,17 @@
 				</c:choose></div>
 				</div>
 				<form action="newMateria.do" method="post" id="newMateria-form" style="display: none;">
-					<input type="text" name="newMateria-name"
-						placeholder="Nombre materia" /> <input type="text"
-						name="newMateria-cantidad" placeholder="Peso" /> <select
-						class="form-select" aria-label="Default select example"
-						name="newMateria-unidadDeMedida-select">
-						<option value="kg">Kg</option>
-						<option value="gr">Gr</option>
-						<option value="l">L</option>
-						<option value="ml">ml</option>
-					</select><input type="text" name="newMateria-costo" placeholder="Costo" />
-					<input type="number" name="newMateria-unidades"
-						placeholder="Cantidad" /><select class="form-select"
-						aria-label="Default select example"
-						name="newMateria-category-select">
-						<option value="0" selected>Categoria principal</option>
-						<c:if test="${!mainCategory.getAllCategorias().isEmpty()}">
-							<c:forEach items="${mainCategory.getAllCategorias()}" var="cat">
-								<option value="${cat.id}">${cat.nombre}</option>
-							</c:forEach>
-						</c:if>
-
-					</select>
-
-					<button type="submit" class="btn btn-danger">Guardar</button>
+				
+				<jsp:include page="/views/admin/stock/form/newMateria.jsp"></jsp:include>
+				
+				<button type="submit" class="btn btn-danger">Guardar</button>
+				
+				
 				</form>
 						<ul class="list-group">
 				
 				<c:choose>
-				<c:when test="${stock.getMateriaEnStock().isEmpty()}">
+				<c:when test="${listaDeMateria.isEmpty()}">
 				<li class="list-group-item disabled">Tu Stock se encuentra vacio, por favor agrega un articulo.</li>
 				</c:when>
 				</c:choose>

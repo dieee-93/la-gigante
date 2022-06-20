@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import model.system.materiaprima.Materia;
 import model.system.stockmanager.Categoria;
 import model.system.stockmanager.CategoriasMateria;
-import model.system.stockmanager.Materia;
 import services.CategoriaService;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 

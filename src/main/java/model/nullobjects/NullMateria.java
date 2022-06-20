@@ -10,7 +10,7 @@ public class NullMateria extends Materia {
 	}
 
 	public NullMateria() {
-		 super(0, "","");
+		 super(0, "", "", "", 0.0, 0.0);
 	}
 
 	@Override

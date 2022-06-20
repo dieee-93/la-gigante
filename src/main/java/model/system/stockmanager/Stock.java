@@ -9,9 +9,9 @@ import model.system.materiaprima.Materia;
 
 public class Stock {
 
-	private List<Materia> productosEnStock = new LinkedList<Materia>();
+	private HashMap<Integer, String> materiaEnStock = new HashMap<Integer, String>();
 
-	private HashMap<String, Date> ingresosDeMercaderia;
+	private HashMap<String, Date> ingresosDeMercaderia = new HashMap<String, Date>();
 
 	static private Stock stock = new Stock();
 
@@ -23,49 +23,54 @@ public class Stock {
 		return stock;
 	}
 
-	public List<Materia> getProductosEnStock() {
-		return productosEnStock;
+	public HashMap<Integer, String> getMateriaEnStock() {
+		return materiaEnStock;
+	}
+	
+	public List<Materia> getMateriaEnStockList(){
+		List <Materia> res = new LinkedList<Materia>();
+		for (Integer matId : materiaEnStock.keySet()) {
+			Materia tmp_mat = CategoriasMateria.getInstance().getMateriaById(matId);
+			tmp_mat.setCantidad(Double.parseDouble(materiaEnStock.get(matId)));
+			res.add(tmp_mat);
+		}
+		return res;
 	}
 
-	public void setProductosEnStock(List<Materia> productosEnStock)  {
-		this.productosEnStock = productosEnStock;
+	public void setMateriaEnStock(HashMap<Integer, String> productosEnStock) {
+		productosEnStock.putAll(productosEnStock);
+	}
+
+	public void setMateriaEnStock(Integer materiaId, String cantidad) {
+		materiaEnStock.put(materiaId, cantidad);
 	}
 
 	public HashMap<String, Date> getIngresosDeMercaderia() {
 		return ingresosDeMercaderia;
 	}
 
-	public void setIngresosDeMercaderia(String username, Date ingresosDeMercaderia) {
-		this.ingresosDeMercaderia.put(username, ingresosDeMercaderia);
-	}
-	
-	public Materia getMateriaById(Integer id) {
-		Materia m = null;
-		for(Materia mat : this.productosEnStock) {
-			if (mat.getId() == id) {
-				m = mat;
-			}
-		}
-		return m;
-	}
-	
-	public void addMateriaById(Integer id, Double cant) {
-			this.productosEnStock.add(CategoriasMateria.getInstance().getMateriaById(id));
-	}
-	
-	public void updateMateriaById(Integer id, Double cant) {
-		if (!this.materiaEnStock(id)) {
-			this.productosEnStock.add(CategoriasMateria.getInstance().getMateriaById(id));
-		} else {
-			this.getMateriaById(id).setCantidad(cant);
-		}
-		
-	
-	}
-	
-	public Boolean materiaEnStock(Integer id) {
-		Materia m = this.getMateriaById(id);
-		return (m != null);
+	public void setIngresosDeMercaderia(HashMap<String, Date> ingresosDeMercaderia) {
+		this.ingresosDeMercaderia = ingresosDeMercaderia;
 	}
 
+	public static Stock getStock() {
+		return stock;
+	}
+
+	public static void setStock(Stock stock) {
+		Stock.stock = stock;
+	}
+
+	public Materia getMateriaById(Integer id) {
+		Materia mat = null;
+		if (materiaEnStock.containsKey(id)) {
+			mat = CategoriasMateria.getInstance().getMateriaById(id);
+			mat.setCantidad(Double.parseDouble(materiaEnStock.get(id)));
+		}
+		return mat;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(39 / 20);
+	}
 }

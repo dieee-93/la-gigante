@@ -3,6 +3,7 @@ package services;
 import java.util.List;
 
 import model.system.stockmanager.Categoria;
+import model.system.stockmanager.CategoriasMateria;
 import persistence.commons.DAOFactory;
 
 public class CategoriaService {
@@ -25,6 +26,35 @@ public class CategoriaService {
 		return DAOFactory.getCategoriaDAO().findAll();
 	}
 
+	
+	public CategoriasMateria actualizarCategorias(List<Categoria> categoriasToOrder) {
+		CategoriasMateria.getInstance().getCategorias().clear();
+
+		for (int i = categoriasToOrder.size() - 1; i >= 0; i--) {
+			if (categoriasToOrder.get(i).getIdCategoriaPadre().equals(0))
+
+			{
+				CategoriasMateria.getInstance().getCategorias().add(categoriasToOrder.get(i));
+				categoriasToOrder.remove(i);
+			}
+		}
+
+		while (categoriasToOrder.size() != 0) {
+			for (int x = categoriasToOrder.size() - 1; x >= 0; x--) {
+				if (CategoriasMateria.getInstance().getCategoriaById(categoriasToOrder.get(x).getIdCategoriaPadre()) != null) {
+					CategoriasMateria.getInstance().getCategoriaById(categoriasToOrder.get(x).getIdCategoriaPadre()).getSubCategoria()
+							.add(categoriasToOrder.get(x));
+					categoriasToOrder.remove(x);
+				}
+
+			}
+
+		}
+
+		return CategoriasMateria.getInstance();
+
+	}
+	
 	public Categoria update(Integer id,String name, Integer id_padre) {
 		Categoria cat = new Categoria(id, name, id_padre);
 

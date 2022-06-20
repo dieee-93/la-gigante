@@ -27,7 +27,7 @@ public class MainPageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Stock stock = stockService.getStock();
 		
-		if(stock.getProductosEnStock().isEmpty()) {
+		if(stock.getMateriaEnStock().isEmpty()) {
 			req.setAttribute("flash", "Parece que es la primera vez que usas la aplicación, crea un stock para empezar.");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/stock.do");
 			dispatcher.forward(req, resp);

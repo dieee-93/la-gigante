@@ -4,26 +4,18 @@ import java.util.List;
 
 import model.system.materiaprima.Materia;
 import model.system.materiaprima.MateriaConmesurable;
+import model.system.materiaprima.MateriaContable;
+import model.system.materiaprima.MateriaElaborada;
 import persistence.commons.DAOFactory;
 
 public class MateriaService {
 
-	public Materia create(String nombre, String categoria, String tipo) {
-		Materia materia = null;
-	
-		if (materia.isValid()) {
-			DAOFactory.getMateriaDAO().insert(materia);
-			// XXX: si no devuelve "1", es que hubo más errores
-		}
+	// MATERIA CONMESURABLE
 
-		return materia;
-	}
-	
+	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+			String unidadDeMedida) {
 
-	public Materia create(String nombre, String categoria, String tipo, Double cantidad, String unidadDeMedida) {
-		
-		Materia materia = new MateriaConmesurable(-1, nombre, categoria, tipo, cantidad, unidadDeMedida);
-	
+		Materia materia = new MateriaConmesurable(-1, nombre, categoria, tipo, costo, cantidad, unidadDeMedida);
 
 		if (materia.isValid()) {
 			DAOFactory.getMateriaDAO().insert(materia);
@@ -32,25 +24,100 @@ public class MateriaService {
 
 		return materia;
 	}
+
+	// MATERIA CONTABLE
+
+	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+
+		Materia materia = new MateriaContable(-1, nombre, categoria, tipo, costo, cantidad);
+
+		if (materia.isValid()) {
+			DAOFactory.getMateriaDAO().insert(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
+		}
+
+		return materia;
+
+	}
+
+	// ------------------------------------------------------- //
+
+	// MATERIA ELABORADA CONMESURABLE
+
+	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+			String unidadDeMedida, List<Materia> receta) {
+
+		Materia materia = new MateriaElaborada(-1, nombre, categoria, tipo, costo, cantidad, unidadDeMedida, receta);
+
+		if (materia.isValid()) {
+			DAOFactory.getMateriaDAO().insert(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
+		}
+
+		return materia;
+	}
+
+	// MATERIA ELABORADA CONTABLE
+
+	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+			List<Materia> receta) {
+
+		Materia materia = new MateriaElaborada(-1, nombre, categoria, tipo, costo, cantidad, receta);
+
+		if (materia.isValid()) {
+			DAOFactory.getMateriaDAO().insert(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
+		}
+
+		return materia;
+	}
+	
+	// ------------------------------------------------------- //
 
 	public List<Materia> list() {
 		return DAOFactory.getMateriaDAO().findAll();
 	}
 
-	public Materia update(Integer id, String nombre, Double costoPorKilo, Double cantidad, String unidad_de_medida,
-			String categoria) {
+	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Integer unidades) {
+
 		Materia materia = DAOFactory.getMateriaDAO().find(id);
-		materia.setNombre(nombre);
-		materia.setCostoEnKg(costoPorKilo);
-		materia.setCantidad(cantidad);
-		materia.setUnidadDeMedida(unidad_de_medida);
-		materia.setCategoria(categoria);
+		materia.setUnidades(unidades);
 
 		if (materia.isValid()) {
 			DAOFactory.getMateriaDAO().update(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
 		}
-		return materia;
 
+		return materia;
+	}
+
+	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+			String unidadDeMedida) {
+
+		Materia materia = DAOFactory.getMateriaDAO().find(id);
+		materia.setCantidad(cantidad);
+		materia.setUnidadDeMedida(unidadDeMedida);
+
+		if (materia.isValid()) {
+			DAOFactory.getMateriaDAO().update(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
+		}
+
+		return materia;
+	}
+
+	public Materia update(int id, String nombre, String categoria, String tipo, Double costo,
+			List<Materia> ingredientes) {
+
+		Materia materia = DAOFactory.getMateriaDAO().find(id);
+		materia.setReceta(ingredientes);
+
+		if (materia.isValid()) {
+			DAOFactory.getMateriaDAO().update(materia);
+			// XXX: si no devuelve "1", es que hubo más errores
+		}
+
+		return materia;
 	}
 
 	public void delete(Integer id) {

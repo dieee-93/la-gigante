@@ -3,10 +3,10 @@ package model.system.stockmanager;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Categorizable;
 import model.system.materiaprima.Materia;
 
-public class CategoriasMateria implements Categorizable {
+
+public class CategoriasMateria  {
 
 	private String nombre = "Sin categorizar";
 	private List<Categoria> categorias = new LinkedList<Categoria>();
@@ -41,33 +41,7 @@ public class CategoriasMateria implements Categorizable {
 		this.materiasPrimas = materiasPrimas;
 	}
 
-	public CategoriasMateria actualizarCategorias(List<Categoria> categoriasToOrder) {
-		this.categorias.clear();
 
-		for (int i = categoriasToOrder.size() - 1; i >= 0; i--) {
-			if (categoriasToOrder.get(i).getIdCategoriaPadre().equals(0))
-
-			{
-				this.categorias.add(categoriasToOrder.get(i));
-				categoriasToOrder.remove(i);
-			}
-		}
-
-		while (categoriasToOrder.size() != 0) {
-			for (int x = categoriasToOrder.size() - 1; x >= 0; x--) {
-				if (this.getCategoriaById(categoriasToOrder.get(x).getIdCategoriaPadre()) != null) {
-					this.getCategoriaById(categoriasToOrder.get(x).getIdCategoriaPadre()).getSubCategoria()
-							.add(categoriasToOrder.get(x));
-					categoriasToOrder.remove(x);
-				}
-
-			}
-
-		}
-
-		return CategoriasMateria.getInstance();
-
-	}
 
 	public List<Categoria> getAllCategorias() {
 		List<Categoria> res = new LinkedList<Categoria>();

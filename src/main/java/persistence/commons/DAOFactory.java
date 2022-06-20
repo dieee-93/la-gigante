@@ -14,7 +14,7 @@ public class DAOFactory {
 		return new UsuarioDAOImpl();
 	}
 	
-	public static MateriaDAO getStockDAO() {
+	public static StockDAOImpl getStockDAO() {
 		return new StockDAOImpl();
 	}
 	

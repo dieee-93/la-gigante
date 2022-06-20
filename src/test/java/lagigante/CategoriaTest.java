@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.system.materiaprima.Materia;
 import model.system.stockmanager.Categoria;
 import model.system.stockmanager.CategoriasMateria;
-import model.system.stockmanager.Materia;
 import services.CategoriaService;
 
 public class CategoriaTest {
@@ -60,9 +60,6 @@ public class CategoriaTest {
 		categoria2 = new Categoria(11,"Quesos", 12);
 		
 		
-		materia1 = new Materia(1,"Provolone","Quesos Semiduros");
-		materia2 = new Materia(2,"Peccorino","Quesos Picantes");
-		materia3 = new Materia(3,"Bola de lomo", "Carnes");
 	
 		
 		

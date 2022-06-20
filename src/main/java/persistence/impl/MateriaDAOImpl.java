@@ -11,6 +11,7 @@ import model.nullobjects.NullMateria;
 import model.system.materiaprima.Materia;
 import model.system.materiaprima.MateriaConmesurable;
 import model.system.materiaprima.MateriaContable;
+import model.system.materiaprima.MateriaElaborada;
 import persistence.MateriaDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;
@@ -79,35 +80,128 @@ public class MateriaDAOImpl implements MateriaDAO {
 
 	private Materia toMateria(ResultSet materiaRegister) throws SQLException {
 		Materia materia = null;
-		
-		switch(materiaRegister.getString(4)) {
-		case("contable"):
-			materia = new MateriaContable(materiaRegister.getInt(1), materiaRegister.getString(2), materiaRegister.getString(3), materiaRegister.getString(4));
-		break;
-		case("conmesurable"):
-			materia = new MateriaConmesurable(materiaRegister.getInt(1), materiaRegister.getString(2), materiaRegister.getString(3), materiaRegister.getString(4));
-		
+
+		switch (materiaRegister.getString(4)) {
+		case ("conmesurable"):
+			materia = new MateriaConmesurable(materiaRegister.getInt(1), materiaRegister.getString(2),
+					materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
+					materiaRegister.getDouble(6), materiaRegister.getString(7));
+			break;
+		case ("contable"):
+			materia = new MateriaContable(materiaRegister.getInt(1), materiaRegister.getString(2),
+					materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),materiaRegister.getDouble(6));
+			break;
+		case ("elaborada"):
+			if (materiaRegister.getString(7).equals(null)) {
+			materia = new MateriaElaborada(materiaRegister.getInt(1), materiaRegister.getString(2),
+					materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5), materiaRegister.getDouble(6),
+					this.lectorDeRecetas(materiaRegister.getString(8)));}
+			else {
+				materia = new MateriaElaborada(materiaRegister.getInt(1), materiaRegister.getString(2), materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5), materiaRegister.getDouble(6), materiaRegister.getString(7), this.lectorDeRecetas(materiaRegister.getString(8)));
+			}
+			break;
 		}
-		
 
 		return materia;
-			
+
+	}
+	
+	// RECIBE UN STRING FORMATO:    
+	
+	// IDMATERIA-CANTIDAD-UNIDADDEMEDIDA(SOLO CONMESURABLES Y ELABORADAS CONMESURABLES)/IDMATERIA2-CANTIDAD2-UNIDADDEMEDIDA2/IDMATERIA3-CANTIDAD3-UNIDADDEMEDIDA3/ETC
+	// "-" SEPARAN PARAMETROS "/" SEPARAN MATERIAS_PRIMAS  
+	
+	
+	private List<Materia> lectorDeRecetas(String receta) {
+	
+		
+		
+		List<Materia> res = new LinkedList<Materia>();
+		
+		
+		String[] listaDeIngredientes = receta.split("/");
+
+		for (int i = 0; i >= listaDeIngredientes.length; i++) {
+			String[] ingrediente = listaDeIngredientes[i].split("-");
+			Materia tmp_materia = this.find(Integer.parseInt(ingrediente[0]));
+			Materia tmp_materia2;
+			switch (tmp_materia.getTipo()) {
+
+			case ("conmesurable"):
+				tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
+						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+						Double.parseDouble(ingrediente[1]), ingrediente[2]);
+				res.add(tmp_materia2);
+				break;
+			case ("contable"):
+				tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
+						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(), 
+						Double.parseDouble(ingrediente[1]));
+				res.add(tmp_materia2);
+				break;
+			case ("elaborada"):
+				if (tmp_materia.getUnidadDeMedida().equals(null)) {
+					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
+							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(), tmp_materia.getCantidad(),
+							this.lectorDeRecetas(ingrediente[1]));
+				}
+				else {
+				tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
+						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(), tmp_materia.getCantidad(), 
+						ingrediente[1] , this.lectorDeRecetas(ingrediente[2]));
+				}
+			}
+
+		}
+
+		return res;
 	}
 
 	@Override
 	public int insert(Materia materia) {
 		try {
-			String sql = "INSERT INTO MATERIAS_PRIMAS (NOMBRE, COSTO_POR_KILO, CANTIDAD, UNIDAD_DE_MEDIDA, CATEGORIA) VALUES (?, ?, ?, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
+			int rows = 0;
+			if (materia.getTipo().equals("conmesurable")) {
+				String sql = "INSERT INTO MATERIAS_PRIMAS (NOMBRE, CATEGORIA, TIPO_MATERIA, COSTO, CANTIDAD, UNIDAD_DE_MEDIDA) VALUES (?, ?, ?, ?, ?, ?)";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setDouble(i++, materia.getCantidad());
+				statement.setString(i++, materia.getUnidadDeMedida());
 
-			PreparedStatement statement = conn.prepareStatement(sql);
-			int i = 1;
-			statement.setString(i++, materia.getNombre());
-			statement.setDouble(i++, materia.getCostoEnKg());
-			statement.setDouble(i++, materia.getCantidad());
-			statement.setString(i++, materia.getUnidadDeMedida());
-			statement.setString(i++, materia.getCategoria());
-			int rows = statement.executeUpdate();
+				rows = statement.executeUpdate();
+			}
+
+			if (materia.getTipo().equals("contable")) {
+				String sql = "INSERT INTO MATERIAS_PRIMAS (NOMBRE, CATEGORIA, TIPO_MATERIA, COSTO, UNIDADES) VALUES (?, ?, ?, ?, ?)";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setInt(i++, materia.getUnidades());
+
+				rows = statement.executeUpdate();
+			}
+
+			if (materia.getTipo().equals("elaborada")) {
+				String sql = "INSERT INTO MATERIAS_PRIMAS (NOMBRE, CATEGORIA, TIPO_MATERIA, COSTO, RECETA) VALUES (?, ?, ?, ?, ?)";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setDouble(i++, materia.getCantidad());
+				statement.setString(i++, materia.getRecetaTextoPlano());
+
+				rows = statement.executeUpdate();
+			}
 
 			return rows;
 		} catch (Exception e) {
@@ -118,19 +212,56 @@ public class MateriaDAOImpl implements MateriaDAO {
 	@Override
 	public int update(Materia materia) {
 		try {
-			String sql = "UPDATE MATERIAS_PRIMAS SET NOMBRE = ?, COSTO_POR_KILO = ?, CANTIDAD = ?, UNIDAD_DE_MEDIDA = ?, CATEGORIA = ?, WHERE ID = ?";
+
 			Connection conn = ConnectionProvider.getConnection();
+			int rows = 0;
 
-			PreparedStatement statement = conn.prepareStatement(sql);
-			int i = 1;
-			statement.setString(i++, materia.getNombre());
-			statement.setDouble(i++, materia.getCostoEnKg());
-			statement.setDouble(i++, materia.getCantidad());
-			statement.setString(i++, materia.getUnidadDeMedida());
-			statement.setString(i++, materia.getCategoria());
+			if (materia.getTipo().equals("conmesurable")) {
+				String sql = "UPDATE MATERIAS_PRIMAS SET NOMBRE = ?, CATEGORIA = ?, TIPO_MATERIA = ?, COSTO = ?, UNIDADES = ? WHERE ID = ?";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setDouble(i++, materia.getCantidad());
+				statement.setString(i++, materia.getUnidadDeMedida());
 
-			statement.setInt(i++, materia.getId());
-			int rows = statement.executeUpdate();
+				statement.setInt(i++, materia.getId());
+
+				rows = statement.executeUpdate();
+			}
+
+			if (materia.getTipo().equals("contable")) {
+				String sql = "UPDATE MATERIAS_PRIMAS SET NOMBRE = ?, CATEGORIA = ?, TIPO_MATERIA = ?, COSTO = ?, UNIDADES = ? WHERE ID = ?";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setInt(i++, materia.getUnidades());
+
+				statement.setInt(i++, materia.getId());
+
+				rows = statement.executeUpdate();
+			}
+
+			if (materia.getTipo().equals("elaborada")) {
+				String sql = "UPDATE MATERIAS_PRIMAS SET NOMBRE = ?, CATEGORIA = ?, TIPO_MATERIA = ?, COSTO = ?, UNIDADES = ? WHERE ID = ?";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				int i = 1;
+				statement.setString(i++, materia.getNombre());
+				statement.setString(i++, materia.getCategoria());
+				statement.setString(i++, materia.getTipo());
+				statement.setDouble(i++, materia.getCosto());
+				statement.setDouble(i++, materia.getCantidad());
+				statement.setString(i++, materia.getRecetaTextoPlano());
+
+				statement.setInt(i++, materia.getId());
+
+				rows = statement.executeUpdate();
+			}
 
 			return rows;
 		} catch (Exception e) {

@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.system.materiaprima.Materia;
 import model.system.stockmanager.CategoriasMateria;
-import model.system.stockmanager.Stock;
 import services.CategoriaService;
 import services.MateriaService;
 import services.StockService;
@@ -33,23 +32,23 @@ public class StockServlet extends HttpServlet {
 		stockService = new StockService();
 		categoriaService = new CategoriaService();
 		materiaService = new MateriaService();
+		
 
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Stock stock = stockService.getStock();
-		List<Materia> listaDeMateria = materiaService.list();
-		CategoriasMateria mainCategory = CategoriasMateria.getInstance();
-		mainCategory.actualizarCategorias(categoriaService.list());
-		List<TreeNodesPOJO> treeNodes = ConvertJSON.getTree(mainCategory.getCategorias(),
-				mainCategory.getMateriasPrimas());
+	
+		List<Materia> listaDeMateriaEnStock = stockService.list();
+		CategoriasMateria mainCategory = categoriaService.actualizarCategorias(categoriaService.list());
+		List<TreeNodesPOJO> treeNodes = ConvertJSON.getTree(categoriaService.list(),
+				materiaService.list());
 		String categoriasJSON = new Gson().toJson(treeNodes);
 		
 
-		if (stock.getProductosEnStock().isEmpty()) {
+		if (listaDeMateriaEnStock.isEmpty()) {
 			req.setAttribute("mainCategory", mainCategory);
 			req.setAttribute("categoriasJSON", categoriasJSON);
-			req.setAttribute("listaDeMateria", listaDeMateria);
+			req.setAttribute("listaDeMateria", listaDeMateriaEnStock);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/admin/stock/newStock.jsp");
 			dispatcher.forward(req, resp);
 		}

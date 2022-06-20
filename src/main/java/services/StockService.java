@@ -4,17 +4,16 @@ import java.util.List;
 
 import model.Usuario;
 import model.system.materiaprima.Materia;
+import model.system.materiaprima.MateriaConmesurable;
 import model.system.stockmanager.Stock;
 import persistence.commons.DAOFactory;
 
 public class StockService {
 
-	public Stock create(Integer id, Double unidad) {
+	public Stock create(Integer id, Double cantidad) {
 		
-		Materia materia = new Materia(-1, "Diego","RLZ");
-		materia.setId(id);
-		materia.setUnidades(unidad);
-		
+		Materia materia = new MateriaConmesurable(id, "", "", "", 0.0, cantidad, "");
+	
 		if (materia.isValid()) {
 			DAOFactory.getStockDAO().insert(materia);
 			// XXX: si no devuelve "1", es que hubo más errores
@@ -32,7 +31,7 @@ public class StockService {
 		Materia materia = DAOFactory.getStockDAO().find(id);
 		
 		materia.setId(id);
-		materia.setUnidades(cantidad);
+		materia.setCantidad(cantidad);
 		
 
 		if (materia.isValid()) {
