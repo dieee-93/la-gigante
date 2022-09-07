@@ -21,9 +21,9 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
-			
+
 			List<Categoria> categorias = new LinkedList<Categoria>();
-			
+
 			while (resultados.next()) {
 				categorias.add(toCategoria(resultados));
 			}
@@ -41,7 +41,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);
-			
+
 			ResultSet resultados = statement.executeQuery();
 
 			Categoria categoria = NullCategoria.build();
@@ -54,7 +54,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			throw new MissingDataException(e);
 		}
 	}
-	
+
 	private Categoria toCategoria(ResultSet categoriaRegister) throws SQLException {
 		return new Categoria(categoriaRegister.getInt(1), categoriaRegister.getString(2), categoriaRegister.getInt(3));
 	}
@@ -69,13 +69,15 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			int i = 1;
 			statement.setString(i++, cat.getNombre());
 			statement.setInt(i++, cat.getIdCategoriaPadre());
-			int rows = statement.executeUpdate();
 
-			return rows;
+			return statement.executeUpdate();
 		} catch (Exception e) {
 			throw new MissingDataException(e);
-		}
+		} 
+
 	}
+
+	
 
 	@Override
 	public int update(Categoria cat) {
@@ -88,7 +90,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			statement.setString(i++, cat.getNombre());
 			statement.setInt(i++, cat.getIdCategoriaPadre());
 			statement.setInt(i++, cat.getId());
-	
+
 			int rows = statement.executeUpdate();
 
 			return rows;
@@ -105,9 +107,9 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, cat.getId());
-			int rows = statement.executeUpdate();
 
-			return rows;
+			return statement.executeUpdate();
+
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
@@ -116,21 +118,19 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	@Override
 	public int countAll() {
 		try {
+
 			String sql = "SELECT COUNT(1) AS TOTAL FROM CATEGORIAS";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
 			resultados.next();
-			int total = resultados.getInt("TOTAL");
 
-			return total;
+			return resultados.getInt("TOTAL");
+
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
 	}
-
-
-
 
 }

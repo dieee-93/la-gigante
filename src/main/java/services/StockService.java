@@ -2,7 +2,6 @@ package services;
 
 import java.util.List;
 
-import model.Usuario;
 import model.system.materiaprima.Materia;
 import model.system.materiaprima.MateriaConmesurable;
 import model.system.stockmanager.Stock;
@@ -10,9 +9,9 @@ import persistence.commons.DAOFactory;
 
 public class StockService {
 
-	public Stock create(Integer id, Double cantidad) {
+	public Stock create(int id, Double cantidad, Double costo) {
 		
-		Materia materia = new MateriaConmesurable(id, "", "", "", 0.0, cantidad, "");
+		Materia materia = new MateriaConmesurable(id, "1", "1", "1111", costo, cantidad, "Kg");;
 	
 		if (materia.isValid()) {
 			DAOFactory.getStockDAO().insert(materia);
@@ -25,12 +24,12 @@ public class StockService {
 	public List<Materia> list() {
 		return DAOFactory.getStockDAO().findAll();
 	}
+	
 
 	public Stock update(Integer id, Double cantidad) {
 		
 		Materia materia = DAOFactory.getStockDAO().find(id);
 		
-		materia.setId(id);
 		materia.setCantidad(cantidad);
 		
 
@@ -51,13 +50,36 @@ public class StockService {
 		return Stock.getInstance();
 	}
 	
-	public Boolean yaExiste(String username) {
-		return username.equals(DAOFactory.getUsuarioDAO().findByUsername(username).getUsername());
+	public Boolean yaExiste(int id) {
+		return id == DAOFactory.getStockDAO().find(id).getId();
 	}
 	
-	public Usuario findyById(Integer id) {
+	public Boolean yaExiste(String nombre) {
+		return nombre.equals(DAOFactory.getStockDAO().findByName(nombre).getNombre());
+	}
+	
+	
+	public Materia findById(Integer id) {
 		
-		return DAOFactory.getUsuarioDAO().find(id);
+		return DAOFactory.getStockDAO().find(id);
+	}
+	
+	public Materia findByName(String nombre) {
+		return DAOFactory.getStockDAO().findByName(nombre);
+	}
+	
+	public Materia agregarAStock(Integer id, Double cantidad, Double costo) {
+		Materia materia = DAOFactory.getStockDAO().find(id);
+		
+		materia.setCantidad(cantidad);
+		materia.setCosto(costo);
+		
+		if(materia.isValid()) {
+			DAOFactory.getStockDAO().agregarAStock(materia);
+		}
+		
+		return materia;
+		
 	}
 
 }

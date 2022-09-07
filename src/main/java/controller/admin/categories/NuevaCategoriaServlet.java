@@ -1,4 +1,4 @@
-package controller.categories;
+ package controller.admin.categories;
 
 import java.io.IOException;
 
@@ -35,6 +35,7 @@ public class NuevaCategoriaServlet extends HttpServlet {
 		Categoria tmp_cat = categoriaService.create(catName, fatherCategory);
 
 		if (tmp_cat.isValid()) {
+			//TODO
 			resp.sendRedirect("stock.do");
 		} else {
 			resp.sendRedirect("stock.do");   

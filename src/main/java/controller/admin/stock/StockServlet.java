@@ -1,4 +1,4 @@
-package controller.stock;
+package controller.admin.stock;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.system.materiaprima.Materia;
 import model.system.stockmanager.CategoriasMateria;
+import model.system.stockmanager.Stock;
 import services.CategoriaService;
 import services.MateriaService;
 import services.StockService;
@@ -32,20 +33,18 @@ public class StockServlet extends HttpServlet {
 		stockService = new StockService();
 		categoriaService = new CategoriaService();
 		materiaService = new MateriaService();
-		
 
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-		List<Materia> listaDeMateriaEnStock = stockService.list();
-		CategoriasMateria mainCategory = categoriaService.actualizarCategorias(categoriaService.list());
-		List<TreeNodesPOJO> treeNodes = ConvertJSON.getTree(categoriaService.list(),
-				materiaService.list());
-		String categoriasJSON = new Gson().toJson(treeNodes);
-		
 
-		if (listaDeMateriaEnStock.isEmpty()) {
+		CategoriasMateria mainCategory = categoriaService.actualizarCategorias();
+		List<Materia> listaDeMateriaEnStock = stockService.list();
+		List<TreeNodesPOJO> treeNodes = ConvertJSON.getTree(mainCategory);
+		String categoriasJSON = new Gson().toJson(treeNodes);
+
+		if (!listaDeMateriaEnStock.isEmpty()) {
 			req.setAttribute("mainCategory", mainCategory);
 			req.setAttribute("categoriasJSON", categoriasJSON);
 			req.setAttribute("listaDeMateria", listaDeMateriaEnStock);
@@ -57,6 +56,6 @@ public class StockServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		// TODO document why this method is empty
 	}
 }

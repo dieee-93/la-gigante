@@ -11,4 +11,17 @@ public class MateriaContable extends Materia {
 
 	}
 
+	@Override
+	public Integer getPrecioUnitario() {
+		Integer precioUnitario = 0;
+		if (this.cantidad != 1) {
+			precioUnitario = (this.costo.intValue() / this.cantidad.intValue());
+			
+		} else {
+			precioUnitario = this.costo.intValue();
+		}
+		return precioUnitario;
+	}
+	
+
 }

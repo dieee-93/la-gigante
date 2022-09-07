@@ -36,6 +36,10 @@ public class TreeNodesPOJO {
 		this.nodes.addAll(nodes);
 	}
 	
+	public void setNodes() {
+		this.nodes = null;
+	}
+	
 	
 
 	@Override

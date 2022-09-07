@@ -8,12 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.system.materiaprima.Materia;
+import model.system.materiaprima.MateriaConmesurable;
 import model.system.stockmanager.Categoria;
 import model.system.stockmanager.CategoriasMateria;
 import services.CategoriaService;
+import services.StockService;
 
 public class CategoriaTest {
-
+	StockService stockService;
 	CategoriaService categoriaService;
 
 	CategoriasMateria categoriaPrincipal;
@@ -42,8 +44,9 @@ public class CategoriaTest {
 	@Before
 	public void setUp() throws Exception {
 		categoriaService = new CategoriaService();
+		stockService = new StockService();
 		
-		
+		CategoriasMateria.getInstance().actualizarCategorias(categoriaService.list(), stockService.list());
 		categoriaPrincipal = CategoriasMateria.getInstance();
 		
 		categoria8 = new Categoria(1, "Insumos Gastronomicos", 0);
@@ -60,10 +63,10 @@ public class CategoriaTest {
 		categoria2 = new Categoria(11,"Quesos", 12);
 		
 		
-	
+		materia1 = new MateriaConmesurable(03, "Muzarella DaPrima", "Quesos", "conmesurable", 16400.0, 20.0, "kg");
 		
 		
-		categoria4.getMateria_prima().add(materia1);
+		categoria2.getMateria_prima().add(materia1);
 		categoria7.getMateria_prima().add(materia2);
 		
 		categorias = new LinkedList<Categoria>();
@@ -81,19 +84,14 @@ public class CategoriaTest {
 		categorias.add(categoria11);
 		categorias.add(categoria12);
 
-		
-		
-		
-		categoriaPrincipal.actualizarCategorias(categorias);
-		
+
 
 	}
 
 	@Test
-	public void test() {
+	public void test1() {
 	//GET CATEGORIA BY NAME ()
-	assertEquals("Quesos Cremas", categoriaPrincipal.getCategorias().get(0).getSubCategoria().get(0).getNombre());
-	assertEquals("Lacteos", categoriaPrincipal.getCategoriaByName("Lacteos").getNombre());
+	assertEquals("Qees", categoriaPrincipal.getCategoriaByName("Quesos").getNombre());
 	assertEquals("Quesos Duros", categoriaPrincipal.getCategoriaByName("Quesos Duros").getNombre());
 	assertEquals("Quesos SemiBlandos", categoriaPrincipal.getCategoriaByName("Quesos SemiBlandos").getNombre());
 	assertEquals("Carnes", categoriaPrincipal.getCategoriaByName("Carnes").getNombre());
@@ -107,6 +105,15 @@ public class CategoriaTest {
 
 
 
+	}
+	
+	@Test
+	public void test2() {
+		
+	
+		assertEquals("Muzarella DaPrima", stockService.findByName("Muzarella DaPrima").getNombre());
+
+		
 	}
 
 }

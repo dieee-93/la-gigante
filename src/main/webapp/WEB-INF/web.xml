@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app 
-    xmlns="https://jakarta.ee/xml/ns/jakartaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
-    version="5.0">
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+	version="5.0">
 	<filter>
 		<description>
 		</description>
@@ -16,9 +15,9 @@
 		<url-pattern>/LoggedFilter</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<servlet-name>CrearUsuario</servlet-name>
-		<display-name>CrearUsuario</display-name>
 		<description></description>
+		<display-name>CrearUsuario</display-name>
+		<servlet-name>CrearUsuario</servlet-name>
 		<servlet-class>controller.user.CrearUsuario</servlet-class>
 	</servlet>
 	<servlet>
@@ -35,6 +34,13 @@
 		<servlet-name>NuevaMateriaServlet</servlet-name>
 		<servlet-class>controller.materia.NuevaMateriaServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>BorrarCategoriaServlet</display-name>
+		<servlet-name>BorrarCategoriaServlet</servlet-name>
+		<servlet-class>controller.categories.BorrarCategoriaServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CrearUsuario</servlet-name>
 		<url-pattern>/CrearUsuario</url-pattern>
@@ -47,9 +53,13 @@
 		<servlet-name>NuevaMateriaServlet</servlet-name>
 		<url-pattern>/NuevaMateriaServlet</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BorrarCategoriaServlet</servlet-name>
+		<url-pattern>/BorrarCategoriaServlet</url-pattern>
+	</servlet-mapping>
 
-<welcome-file-list>
-<welcome-file>login.jsp</welcome-file>
-</welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
 
 </web-app>

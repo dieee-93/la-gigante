@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.system.materiaprima.Materia;
+import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
-
-public class CategoriasMateria  {
+public class CategoriasMateria {
 
 	private String nombre = "Sin categorizar";
 	private List<Categoria> categorias = new LinkedList<Categoria>();
@@ -40,8 +40,6 @@ public class CategoriasMateria  {
 	public void setMateriasPrimas(List<Materia> materiasPrimas) {
 		this.materiasPrimas = materiasPrimas;
 	}
-
-
 
 	public List<Categoria> getAllCategorias() {
 		List<Categoria> res = new LinkedList<Categoria>();
@@ -112,6 +110,52 @@ public class CategoriasMateria  {
 		}
 
 		return c;
+	}
+
+	public void actualizarCategorias(List<Categoria> categorias, List<Materia> materiaPrima) {
+		this.categorias.clear();
+
+		for (int i = categorias.size() - 1; i >= 0; i--) {
+			if (categorias.get(i).getIdCategoriaPadre().equals(0))
+
+			{
+				this.categorias.add(categorias.get(i));
+				categorias.remove(i);
+			}
+		}
+
+		while (categorias.size() != 0) {
+			for (int x = categorias.size() - 1; x >= 0; x--) {
+				if (this.getCategoriaById(categorias.get(x).getIdCategoriaPadre()) != null) {
+					this.getCategoriaById(categorias.get(x).getIdCategoriaPadre()).getSubCategoria()
+							.add(categorias.get(x));
+					categorias.remove(x);
+				}
+
+			}
+
+		}
+		this.materiasPrimas.clear();
+		for (Materia mat : materiaPrima) {
+			if (mat.getCategoria().equals("0")) {
+				
+				this.materiasPrimas.add(mat);
+			} else {
+			this.getCategoriaById(Integer.parseInt(mat.getCategoria())).getMateria_prima().add(mat);
+			}
+		}
+
+	}
+
+	public List<TreeNodesPOJO> toTree() {
+		List<TreeNodesPOJO> res = new LinkedList<>();
+		for (Materia mat : this.materiasPrimas) {
+			res.add(mat.toTree());
+		}
+		for (Categoria cat : this.categorias) {
+			res.add(cat.toTree());
+		}
+		return res;
 	}
 
 }

@@ -24,7 +24,7 @@ public class UsuarioTest {
 	public void test() {
 	//USUARIO SERVICE TEST
 	assertEquals("Diego", loginService.login("Diego", "1234").getUsername());
-	assertEquals("Diego", usuarioService.findByName("Diego").getUsername());
+	assertEquals("Diego", usuarioService.findByName("Jacinto").getUsername());
 	}
 
 }

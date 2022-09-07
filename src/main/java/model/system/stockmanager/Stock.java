@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.system.materiaprima.Materia;
 
@@ -26,18 +27,19 @@ public class Stock {
 	public HashMap<Integer, String> getMateriaEnStock() {
 		return materiaEnStock;
 	}
+
 	
-	public List<Materia> getMateriaEnStockList(){
+	public List<Materia> getMateriaEnStockList(CategoriasMateria categorias){
 		List <Materia> res = new LinkedList<Materia>();
 		for (Integer matId : materiaEnStock.keySet()) {
-			Materia tmp_mat = CategoriasMateria.getInstance().getMateriaById(matId);
+			Materia tmp_mat = categorias.getMateriaById(matId);
 			tmp_mat.setCantidad(Double.parseDouble(materiaEnStock.get(matId)));
 			res.add(tmp_mat);
 		}
 		return res;
 	}
 
-	public void setMateriaEnStock(HashMap<Integer, String> productosEnStock) {
+	public void setMateriaEnStock(Map<Integer, String> productosEnStock) {
 		productosEnStock.putAll(productosEnStock);
 	}
 
@@ -49,8 +51,8 @@ public class Stock {
 		return ingresosDeMercaderia;
 	}
 
-	public void setIngresosDeMercaderia(HashMap<String, Date> ingresosDeMercaderia) {
-		this.ingresosDeMercaderia = ingresosDeMercaderia;
+	public void setIngresosDeMercaderia(Map<String, Date> ingresosDeMercaderia) {
+		this.ingresosDeMercaderia = (HashMap<String, Date>) ingresosDeMercaderia;
 	}
 
 	public static Stock getStock() {

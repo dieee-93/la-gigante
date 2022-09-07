@@ -2,6 +2,7 @@ package persistence.commons;
 
 import persistence.CategoriaDAO;
 import persistence.MateriaDAO;
+import persistence.StockDAO;
 import persistence.UsuarioDAO;
 import persistence.impl.CategoriaDAOImpl;
 import persistence.impl.MateriaDAOImpl;
@@ -14,7 +15,7 @@ public class DAOFactory {
 		return new UsuarioDAOImpl();
 	}
 	
-	public static StockDAOImpl getStockDAO() {
+	public static StockDAO getStockDAO() {
 		return new StockDAOImpl();
 	}
 	

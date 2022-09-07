@@ -3,24 +3,35 @@ package model.system.materiaprima;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MateriaElaborada extends MateriaConmesurable {
+public class MateriaElaborada extends Materia {
 
 	private List<Materia> receta = new LinkedList<Materia>();
+	private String unidadDeMedida;
 
-	
 	public MateriaElaborada(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
 			List<Materia> receta) {
-		super(id, nombre, categoria, tipo, costo, cantidad, null);
+		super(id, nombre, categoria, tipo, costo, cantidad);
 		this.receta = receta;
 
 	}
-	
-	public MateriaElaborada(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad, String unidadDeMedida, List<Materia> receta) {
-	
-		super(id, nombre, categoria, tipo, costo, cantidad, unidadDeMedida);
+
+	public MateriaElaborada(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+			String unidadDeMedida, List<Materia> receta) {
+
+		super(id, nombre, categoria, tipo, costo, cantidad);
+		this.unidadDeMedida = unidadDeMedida;
 		this.receta = receta;
 	}
-	
+
+	@Override
+	public String getUnidadDeMedida() {
+		return unidadDeMedida;
+	}
+
+	@Override
+	public void setUnidadDeMedida(String unidadDeMedida) {
+		this.unidadDeMedida = unidadDeMedida;
+	}
 
 	public Double calculadorDePrecioTotal() {
 		Double res = 0.0;
@@ -29,22 +40,22 @@ public class MateriaElaborada extends MateriaConmesurable {
 		}
 		return res;
 	}
-	
+
+	@Override
 	public String getRecetaTextoPlano() {
 		String res = "";
 
 		for (Materia mat : this.receta) {
 			switch (mat.getTipo()) {
 			case ("conmesurable"):
-				MateriaConmesurable tmp_mat = (MateriaConmesurable) mat;
-				res += tmp_mat.getId() + "-" + tmp_mat.getCantidad() + "-" + tmp_mat.getUnidadDeMedida() + "/";
+				res += mat.getId() + "-" + mat.getCantidad() + "-" + mat.getUnidadDeMedida() + "/";
 				break;
 			case ("contable"):
-				MateriaContable tmp_mat2 = (MateriaContable) mat;
-				res += tmp_mat2.getId() + "-" + tmp_mat2.getUnidades() + "/";
+				res += mat.getId() + "-" + mat.getCantidad() + "/";
+				break;
 			case ("elaborada"):
-				MateriaElaborada tmp_mat3 = (MateriaElaborada) mat;
-				res += tmp_mat3.getRecetaTextoPlano();
+
+				res += mat.getRecetaTextoPlano();
 				break;
 
 			}
@@ -52,14 +63,15 @@ public class MateriaElaborada extends MateriaConmesurable {
 		}
 		return res;
 	}
+
 	@Override
 	public List<Materia> getReceta() {
 		return receta;
 	}
+
 	@Override
 	public void setReceta(List<Materia> receta) {
 		this.receta = receta;
 	}
-
 
 }
