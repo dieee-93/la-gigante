@@ -286,9 +286,9 @@ $(document).ready(() => {
   agregarARecetaBtn.addEventListener("click", () => {
     agregarIngrediente();
   });
-  nuevoIngredienteSelect.addEventListener("change", () => {
-    mostrarIngrediente();
-  });
+	  nuevoIngredienteSelect.addEventListener("change", () => {
+	    mostrarIngrediente();
+	  });
 
   nuevoIngredienteCantidad.addEventListener("change", () => {
     calculadoraDeCostos();

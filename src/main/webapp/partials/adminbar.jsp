@@ -9,13 +9,14 @@
 </head>
 <body>
 
-<nav>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<div class="container fluid">
 <a href="index.do"><button type="button" class="btn btn-danger">MAIN</button></a>
 <a href="tienda.do"><button type="button" class="btn btn-danger">MI TIENDA</button></a>
 <a href="finanzas.do"><button type="button" class="btn btn-danger">FINANZAS</button></a>
 <a href="clientes.do"><button type="button" class="btn btn-danger">CLIENTES</button></a>
 <a href="stock.do"><button type="button" class="btn btn-danger">STOCK</button></a>
+</div>
 
 </nav>
 

@@ -9,19 +9,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.system.stockmanager.Categoria;
 import services.CategoriaService;
-import services.StockService;
 
 @WebServlet("/newCategory.do")
 public class NuevaCategoriaServlet extends HttpServlet {
 	private static final long serialVersionUID = 8308079314140233763L;
 
-	private StockService stockService;
+
 	private CategoriaService categoriaService;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		stockService = new StockService();
+
 		categoriaService = new CategoriaService();
 	}
 

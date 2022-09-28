@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+body {
+	background: hsla(211, 53%, 11%, 1);
+	background: linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
+		hsla(289, 52%, 11%, 1) 81%);
+	background: -moz-linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
+		hsla(289, 52%, 11%, 1) 81%);
+	background: -webkit-linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
+		hsla(289, 52%, 11%, 1) 81%);
+	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0D1B2A",
+		endColorstr="#240D29", GradientType=1);
+	height: 100%;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+nav {
+	background-color: #4C5454 !important;
+	margin-bottom: 8px;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin: 5px;
+	padding: 5px;
+	color:#ffffff!important;
+	font-family: 'Source Sans Pro', sans-serif;
+
+}
+
+.box {
+	background: rgba(20, 23, 43, 0.5);
+	border: 2px inset #6f32ab;
+	border-radius: 10px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	
+}
+
+.page-description {
+	
+}

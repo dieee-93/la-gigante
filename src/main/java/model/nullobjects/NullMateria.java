@@ -2,6 +2,7 @@ package model.nullobjects;
 
 
 import model.system.materiaprima.Materia;
+import utils.JavaObjectToJSON.POJO.MateriaPOJO;
 
 public class NullMateria extends Materia {
 
@@ -16,6 +17,12 @@ public class NullMateria extends Materia {
 	@Override
 	public Boolean isNull() {
 		return true;
+	}
+
+	@Override
+	public MateriaPOJO toPOJO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

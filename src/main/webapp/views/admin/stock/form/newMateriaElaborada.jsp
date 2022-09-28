@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- 					 -->
-<div class="container g-0" id="materiaElaborada-form">
+<div class="container-fluid g-0" id="materiaElaborada-form">
 	<div class="row">
 		<div class="col-12 ">
 			<table class="table table-dark table-hover"
@@ -48,7 +48,7 @@
 
 						</div>
 						<div class="col-4">
-							<div class="container my-1 g-0 mt-4 mb-0" id="materiaInfo-form">
+							<div class="container my-1 g-0 mt-4 mb-0">
 
 								<div class="row">
 									<div class="col-6">
@@ -79,7 +79,7 @@
 
 							</div>
 
-							<div class="container g-0 mb-3" id="materiaCantidad-form">
+							<div class="container g-0 mb-3">
 
 								<div class="row">
 									<div class="col-12">
@@ -116,7 +116,7 @@
 			<div class="modal-footer">
 
 				<button type="button" class="btn btn-primary"
-					id="agregarAReceta-btn">Agregar</button>
+					name="agregarAReceta-btn">Agregar</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Finalizar</button>
 			</div>

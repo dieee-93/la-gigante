@@ -15,26 +15,7 @@
 <script src="assets/plugins/bstreeview/bstreeview.min.js"></script>
 <script type="text/javascript">
 
-	function mostrarFormulario(id){
-		if(document.getElementById(id).style.display == "none")
-		{
-			document.getElementById(id).style.display = "block";
-			if (id == "newCategory-form"){
-			boton.innerText = "-";
-			boton.classList.replace('btn-success', 'btn-danger');}
-		}
-		else {
-			document.getElementById(id).style.display = "none";
-			if (id == "newCategory-form"){
-			boton.innerText = "+";
-			boton.classList.replace('btn-danger', 'btn-success');
-			}
-		}
 		
-		}
-		
-	
-
 
 	function getTree() {
 
@@ -53,17 +34,19 @@
 			    tipo:"${materia.tipo}",
 			    costo:"${materia.costo}",
 			    cantidad:"${materia.cantidad}",
-			    unidadDeMedida:"${materia.getUnidadDeMedida()}",
-			    precioMinimo:"${materia.getPrecioMinimo()}",
-			    precioUnitario:"${materia.getPrecioUnitario()}",
+			 
+		
 			  },
 			  </c:forEach>
 			}
 	
 
 </script>
+
 </head>
 <body>
+	<jsp:include page="/partials/adminbar.jsp"></jsp:include>
+
 	<c:if test="${flash!= null}">
 		<div class="alert alert-secondary" role="alert">
 			<c:out value="${flash}"></c:out>
@@ -71,9 +54,7 @@
 
 	</c:if>
 
-	<main class="container"><jsp:include
-			page="/partials/adminbar.jsp"></jsp:include>
-
+	<main class="container-fluid">
 
 
 
@@ -107,7 +88,8 @@
 						</c:when>
 						<c:otherwise>
 							<c:forEach items="${listaDeMateria}" var="materia">
-								<li class="list-group-item">${materia.nombre} ${materia.cantidad} ${materia.unidadDeMedida}</li>
+								<li class="list-group-item">${materia.nombre}
+									${materia.cantidad} ${materia.unidadDeMedida}</li>
 							</c:forEach>
 						</c:otherwise>
 
@@ -143,11 +125,11 @@
 					<jsp:include page="/views/admin/stock/form/newMateria.jsp"></jsp:include>
 
 					<button type="submit" class="btn btn-danger">Crear Materia</button>
- 
-		
+
+
 				</form>
 				<form id="newMateriaElaborada">
-				<jsp:include page="/views/admin/stock/form/newMateriaElaborada.jsp"></jsp:include>
+					<jsp:include page="/views/admin/stock/form/newMateriaElaborada.jsp"></jsp:include>
 				</form>
 			</div>
 
@@ -171,5 +153,6 @@
 			boton.addEventListener('click', () => mostrarFormulario('newCategory-form') );
 	</script>
 	<script src="assets/js/stockJS/newMateriaForm.js"></script>
+
 </body>
 </html>

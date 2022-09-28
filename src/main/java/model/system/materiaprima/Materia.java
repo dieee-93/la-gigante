@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import model.system.interfaces.Treeable;
+import utils.JavaObjectToJSON.POJO.MateriaPOJO;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
 public abstract class Materia implements Treeable {
@@ -17,7 +18,7 @@ public abstract class Materia implements Treeable {
 
 	protected HashMap<String, String> errors;
 
-	public Materia(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+	protected Materia(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad) {
 		this.id = id;
 		this.nombre = nombre;
 		this.categoria = categoria;
@@ -25,6 +26,10 @@ public abstract class Materia implements Treeable {
 		this.costo = costo;
 		this.cantidad = cantidad;
 	}
+	
+	//METODOS ABSTRACTOS
+	public abstract MateriaPOJO toPOJO();
+	public abstract Double getPrecioMinimo();
 
 	public int getId() {
 		return id;
@@ -118,15 +123,7 @@ public abstract class Materia implements Treeable {
 		return null;
 	}
 
-	public Double getPrecioMinimo() {
-		return null;
-	}
-	// Contable Metodos
 
-	
-	public Integer getPrecioUnitario() {
-		return null;
-	}
 
 	// Metodos Elaborada
 
@@ -154,5 +151,6 @@ public abstract class Materia implements Treeable {
 		res.setNodes();
 		return res;
 	}
-
+	
+	
 }
