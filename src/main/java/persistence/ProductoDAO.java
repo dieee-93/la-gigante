@@ -2,8 +2,8 @@ package persistence;
 
 import java.util.List;
 
-import model.Producto;
 import model.system.materiaprima.Materia;
+import model.system.tienda.Producto;
 import persistence.commons.GenericDAO;
 
 public interface ProductoDAO extends GenericDAO<Producto> {

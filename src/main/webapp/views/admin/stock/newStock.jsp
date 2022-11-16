@@ -25,21 +25,7 @@
 		}
 		return data;
 	}
-	
-	let erasmo = {
-			  <c:forEach items="${listaDeMateria}" var="materia">
-			  "${materia.nombre}": {
-				id:"${materia.id}",
-			    categoria:"${materia.categoria}",
-			    tipo:"${materia.tipo}",
-			    costo:"${materia.costo}",
-			    cantidad:"${materia.cantidad}",
-			 
-		
-			  },
-			  </c:forEach>
-			}
-	
+
 
 </script>
 

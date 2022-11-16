@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import model.nullobjects.NullCategoria;
+import model.system.interfaces.Categorizable;
 import model.system.interfaces.Treeable;
-import model.system.materiaprima.Materia;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
-public class Categoria implements Treeable {
+public class Categoria implements Categorizable, Treeable {
 	private int id;
 	private String nombre;
 	private Integer idCategoriaPadre;
-	private List<Materia> materiaPrima = new LinkedList<Materia>();
+	private List<Categorizable> contenido = new LinkedList<Categorizable>();
 	private List<Categoria> subCategorias = new LinkedList<Categoria>();
 	private HashMap<String, String> errors = new HashMap<String, String>();
 
@@ -30,7 +31,7 @@ public class Categoria implements Treeable {
 		this.id = id;
 	}
 
-	public Integer getIdCategoriaPadre() {
+	public Integer getCategoriaPadre() {
 		return idCategoriaPadre;
 	}
 
@@ -54,12 +55,12 @@ public class Categoria implements Treeable {
 		this.nombre = nombre;
 	}
 
-	public List<Materia> getMateria_prima() {
-		return materiaPrima;
+	public List<Categorizable> getContenido() {
+		return this.contenido;
 	}
 
-	public void setMateria_prima(List<Materia> materiaPrima) {
-		this.materiaPrima = materiaPrima;
+	public void setContenido(List<Categorizable> contenido) {
+		this.contenido = contenido;
 	}
 
 	public List<Categoria> getSubCategoria() {
@@ -83,17 +84,17 @@ public class Categoria implements Treeable {
 		return res;
 	}
 
-	public Materia getMateriaById(Integer id) {
-		Materia m = null;
-		for (Materia mat : this.materiaPrima) {
-			if (mat.getId() == id) {
-				m = mat;
+	public Categorizable getContenidoById(Integer id) {
+		Categorizable m = NullCategoria.build();
+		for (Categorizable cate : this.contenido) {
+			if (cate.getId() == id) {
+				m = cate;
 			}
 		}
 
 		for (Categoria cat : this.subCategorias) {
 			if (m == null) {
-				m = cat.getMateriaById(id);
+				m = cat.getContenidoById(id);
 			}
 		}
 
@@ -101,7 +102,7 @@ public class Categoria implements Treeable {
 	}
 
 	public Categoria getCategoriaByName(String nombre) {
-		Categoria c = null;
+		Categoria c = NullCategoria.build();
 
 		if (this.nombre.equals(nombre)) {
 			c = this;
@@ -117,7 +118,7 @@ public class Categoria implements Treeable {
 	}
 
 	public Categoria getCategoriaById(Integer id) {
-		Categoria c = null;
+		Categoria c = NullCategoria.build();
 
 		if (this.id == id) {
 			c = this;
@@ -181,11 +182,13 @@ public class Categoria implements Treeable {
 
 		TreeNodesPOJO res = new TreeNodesPOJO();
 
-		String botonEliminarHTML = "<button type='button' class='btn btn-outline btn-info float-end' name='deleteCategory-btn'>"
-				+ "<a href='deleteCategory.do?id=" + this.getId() + "'><i class='fa-solid fa-trash'></i></a>"
+		String botonMostrarCategoriaHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end' onClick='mostrarCategoria(" + this.getId() + ")'><i class='fa-solid fa-magnifying-glass'></i></button>";
+		String botonEliminarHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end'>"
+				+ "<a href='deleteMateria.do?id=" + this.getId() + "'><i class='fa-solid fa-trash'></i></a>"
 				+ "</button>";
-		res.setText(nombre + botonEliminarHTML);
+		res.setText(nombre + botonMostrarCategoriaHTML);
 		res.setIcon("fa fa-folder");
+		
 
 		if (!this.subCategorias.isEmpty()) {
 			List<TreeNodesPOJO> tmpList = new LinkedList<>();
@@ -194,17 +197,23 @@ public class Categoria implements Treeable {
 				tmpList.add(cat.toTree());
 
 			}
+			
 			res.setNodes(tmpList);
-
+		
 		}
 		
-		if(!this.materiaPrima.isEmpty()) {
+		if(!this.contenido.isEmpty()) {
 			List<TreeNodesPOJO> tmpList = new LinkedList<>();
-			for(Materia mat : this.materiaPrima) {
-				tmpList.add(mat.toTree());
+			for(Categorizable cate : this.contenido) {
+				tmpList.add(cate.toTree());
 			}
+	
 			res.setNodes(tmpList);
+			
 		}
+		
+
+	
 		
 		return res;
 	}

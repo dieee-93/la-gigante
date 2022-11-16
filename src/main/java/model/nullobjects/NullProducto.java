@@ -1,7 +1,7 @@
 package model.nullobjects;
 
 
-import model.Producto;
+import model.system.tienda.Producto;
 
 public class NullProducto extends Producto {
 
@@ -10,7 +10,7 @@ public class NullProducto extends Producto {
 	}
 
 	public NullProducto() {
-		 super(0, "", "", 0.0, null, null);
+		 super(0, "", "", 0, 0.0, null, null);
 	}
 
 	@Override

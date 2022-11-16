@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.system.materiaprima.Materia;
-import model.system.materiaprima.MateriaConmesurable;
 import model.system.stockmanager.Categoria;
 import model.system.stockmanager.CategoriasMateria;
+import model.system.tienda.CategoriasProducto;
 import services.CategoriaService;
 import services.StockService;
 
@@ -18,7 +18,8 @@ public class CategoriaTest {
 	StockService stockService;
 	CategoriaService categoriaService;
 
-	CategoriasMateria categoriaPrincipal;
+	CategoriasMateria arbolDeCategoriasMateria;
+	CategoriasProducto arbolDeCategoriasProducto;
 	Categoria categoria1;
 	Categoria categoria2;
 	Categoria categoria3;
@@ -46,8 +47,9 @@ public class CategoriaTest {
 		categoriaService = new CategoriaService();
 		stockService = new StockService();
 		
-		CategoriasMateria.getInstance().actualizarCategorias(categoriaService.list(), stockService.list());
-		categoriaPrincipal = CategoriasMateria.getInstance();
+		arbolDeCategoriasMateria = categoriaService.actualizarCategoriasMateria();
+		arbolDeCategoriasProducto = categoriaService.actualizarCategoriasProducto();
+		
 		
 		categoria8 = new Categoria(1, "Insumos Gastronomicos", 0);
 		categoria9 = new Categoria(2, "Insumos De Fiambreria", 1);
@@ -63,14 +65,9 @@ public class CategoriaTest {
 		categoria2 = new Categoria(11,"Quesos", 12);
 		
 		
-		materia1 = new MateriaConmesurable(03, "Muzarella DaPrima", "Quesos", "conmesurable", 16400.0, 20.0, "kg");
-		
-		
-		categoria2.getMateria_prima().add(materia1);
-		categoria7.getMateria_prima().add(materia2);
+
 		
 		categorias = new LinkedList<Categoria>();
-		categorias2 = categoriaService.list();
 		categorias.add(categoria1);
 		categorias.add(categoria2);
 		categorias.add(categoria3);
@@ -91,16 +88,9 @@ public class CategoriaTest {
 	@Test
 	public void test1() {
 	//GET CATEGORIA BY NAME ()
-	assertEquals("Qees", categoriaPrincipal.getCategoriaByName("Quesos").getNombre());
-	assertEquals("Quesos Duros", categoriaPrincipal.getCategoriaByName("Quesos Duros").getNombre());
-	assertEquals("Quesos SemiBlandos", categoriaPrincipal.getCategoriaByName("Quesos SemiBlandos").getNombre());
-	assertEquals("Carnes", categoriaPrincipal.getCategoriaByName("Carnes").getNombre());
-	assertEquals("Quesos", categoriaPrincipal.getCategoriaByName("Quesos").getNombre());
-	assertEquals("Vaca", categoriaPrincipal.getCategoriaByName("Vaca").getNombre());
-	assertEquals("Quesos Picantes", categoriaPrincipal.getCategoriaByName("Quesos Picantes").getNombre());
-	assertEquals("Refrigerados", categoriaPrincipal.getCategoriaById(3).getNombre());
-	assertEquals("Provolone", categoriaPrincipal.getCategorias().get(0).getNombre());
-	assertEquals("Peccorino", categoria7.getMateria_prima().get(0).getNombre());
+
+	assertEquals("Provolone", arbolDeCategoriasProducto.getCategoriaById(1).getContenido().get(0));
+
 
 
 

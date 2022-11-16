@@ -32,7 +32,7 @@ public class NuevaMateriaServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String materiaName = req.getParameter("newMateria-nombre");
-		String materiaCategory = req.getParameter("newMateria-categoria");
+		Integer materiaCategory = Integer.parseInt(req.getParameter("newMateria-categoria"));
 		String materiaTipo = req.getParameter("newMateria-tipo");
 		Double materiaCosto = Double.parseDouble(req.getParameter("newMateria-costo"));
 	
@@ -85,15 +85,15 @@ public class NuevaMateriaServlet extends HttpServlet {
 	
 		switch(tmpMateria.getTipo()) {
 		case "conmesurable":
-			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoria(), tmpMateria.getTipo(), materiaCosto, materiaCantidad, tmpMateria.getUnidadDeMedida());
+			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoriaPadre(), tmpMateria.getTipo(), materiaCosto, materiaCantidad, tmpMateria.getUnidadDeMedida());
 			stockService.agregarAStock(tmpMateria.getId(), materiaCantidad, materiaCosto);
 			break;
 		case "contable":
-			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoria(), tmpMateria.getTipo(), materiaCosto, materiaCantidad);
+			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoriaPadre(), tmpMateria.getTipo(), materiaCosto, materiaCantidad);
 			stockService.agregarAStock(tmpMateria.getId(), materiaCantidad, materiaCosto);
 			break;
 		case "elaborada":
-			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoria(), tmpMateria.getTipo(), materiaCosto, materiaCantidad, materiaReceta);
+			materiaService.update(tmpMateria.getId(), tmpMateria.getNombre(), tmpMateria.getCategoriaPadre(), tmpMateria.getTipo(), materiaCosto, materiaCantidad, materiaReceta);
 			stockService.agregarAStock(tmpMateria.getId(), materiaCantidad, materiaCosto);
 			break;
 		}

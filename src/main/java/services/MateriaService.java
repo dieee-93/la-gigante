@@ -12,7 +12,7 @@ public class MateriaService {
 
 	// MATERIA CONMESURABLE
 
-	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia create(String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			String unidadDeMedida) {
 
 		Materia materia = new MateriaConmesurable(-1, nombre, categoria, tipo, costo, cantidad, unidadDeMedida);
@@ -25,7 +25,7 @@ public class MateriaService {
 		return materia;
 	}
 
-	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia update(int id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			String unidadDeMedida) {
 
 		Materia materia = DAOFactory.getMateriaDAO().find(id);
@@ -46,7 +46,7 @@ public class MateriaService {
 
 	// MATERIA CONTABLE
 
-	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+	public Materia create(String nombre, Integer categoria, String tipo, Double costo, Double cantidad) {
 
 		Materia materia = new MateriaContable(-1, nombre, categoria, tipo, costo, cantidad);
 
@@ -59,7 +59,7 @@ public class MateriaService {
 
 	}
 
-	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+	public Materia update(int id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad) {
 
 		Materia materia = DAOFactory.getMateriaDAO().find(id);
 		materia.setNombre(nombre);
@@ -80,7 +80,7 @@ public class MateriaService {
 
 	// MATERIA ELABORADA CONMESURABLE
 
-	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia create(String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			String unidadDeMedida, List<Materia> receta) {
 
 		Materia materia = new MateriaElaborada(-1, nombre, categoria, tipo, costo, cantidad, unidadDeMedida, receta);
@@ -93,7 +93,7 @@ public class MateriaService {
 		return materia;
 	}
 
-	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia update(int id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			String unidadDeMedida, List<Materia> ingredientes) {
 
 		Materia materia = DAOFactory.getMateriaDAO().find(id);
@@ -115,7 +115,7 @@ public class MateriaService {
 
 	// MATERIA ELABORADA CONTABLE
 
-	public Materia create(String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia create(String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			List<Materia> receta) {
 
 		Materia materia = new MateriaElaborada(-1, nombre, categoria, tipo, costo, cantidad, receta);
@@ -128,7 +128,7 @@ public class MateriaService {
 		return materia;
 	}
 
-	public Materia update(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public Materia update(int id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			List<Materia> ingredientes) {
 
 		Materia materia = DAOFactory.getMateriaDAO().find(id);

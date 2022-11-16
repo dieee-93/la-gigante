@@ -3,6 +3,7 @@
 package utils.JavaObjectToJSON.POJO;
 
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import model.system.materiaprima.Materia;
@@ -16,7 +17,7 @@ public class ProductoPOJO {
 	private Double precioDeVenta;
 	private Double costoDeProduccion;
 	private Date fechaDeCreacion;
-	private List<Materia> ingredientes;
+	private List<MateriaPOJO> ingredientes;
 
 	// Setter and Getters
 
@@ -74,12 +75,17 @@ public class ProductoPOJO {
 		this.fechaDeCreacion = fechaDeCreacion;
 	}
 
-	public List<Materia> getIngredientes() {
+	public List<MateriaPOJO> getIngredientes() {
 		return ingredientes;
 	}
 
 	public void setIngredientes(List<Materia> ingredientes) {
-		this.ingredientes = ingredientes;
+		this.ingredientes = new LinkedList<>();
+		for (Materia mat : ingredientes) {
+			this.ingredientes.add(mat.toPOJO());
+			
+		}
+
 	}
 
 }

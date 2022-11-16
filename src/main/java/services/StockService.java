@@ -11,7 +11,7 @@ public class StockService {
 
 	public Stock create(int id, Double cantidad, Double costo) {
 		
-		Materia materia = new MateriaConmesurable(id, "1", "1", "1111", costo, cantidad, "Kg");;
+		Materia materia = new MateriaConmesurable(id, "1", 1, "1111", costo, cantidad, "Kg");;
 	
 		if (materia.isValid()) {
 			DAOFactory.getStockDAO().insert(materia);

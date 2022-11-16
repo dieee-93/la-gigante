@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import model.system.tienda.Producto;
 import utils.Crypt;
 
 public class Usuario {

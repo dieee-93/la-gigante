@@ -84,22 +84,22 @@ public class MateriaDAOImpl implements MateriaDAO {
 		switch (materiaRegister.getString(4)) {
 		case ("conmesurable"):
 			materia = new MateriaConmesurable(materiaRegister.getInt(1), materiaRegister.getString(2),
-					materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
+					materiaRegister.getInt(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
 					materiaRegister.getDouble(6), materiaRegister.getString(7));
 			break;
 		case ("contable"):
 			materia = new MateriaContable(materiaRegister.getInt(1), materiaRegister.getString(2),
-					materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
+					materiaRegister.getInt(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
 					materiaRegister.getDouble(6));
 			break;
 		case ("elaborada"):
 			if (materiaRegister.getString(7) == null) {
 				materia = new MateriaElaborada(materiaRegister.getInt(1), materiaRegister.getString(2),
-						materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
+						materiaRegister.getInt(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
 						materiaRegister.getDouble(6), this.lectorDeRecetas(materiaRegister.getString(8)));
 			} else {
 				materia = new MateriaElaborada(materiaRegister.getInt(1), materiaRegister.getString(2),
-						materiaRegister.getString(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
+						materiaRegister.getInt(3), materiaRegister.getString(4), materiaRegister.getDouble(5),
 						materiaRegister.getDouble(6), materiaRegister.getString(7),
 						this.lectorDeRecetas(materiaRegister.getString(8)));
 			}
@@ -133,13 +133,13 @@ public class MateriaDAOImpl implements MateriaDAO {
 
 			case ("conmesurable"):
 				tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+						tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 						Double.parseDouble(ingrediente[1]), ingrediente[2]);
 				res.add(tmp_materia2);
 				break;
 			case ("contable"):
 				tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+						tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 						Double.parseDouble(ingrediente[1]));
 				res.add(tmp_materia2);
 				break;
@@ -147,12 +147,12 @@ public class MateriaDAOImpl implements MateriaDAO {
 				// REVISA SI LA MATERIA ELABORADA ES CONMESURABLE O CONTABLE
 				if (tmp_materia.getUnidadDeMedida() == null) {
 					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 							tmp_materia.getCantidad(), this.lectorDeRecetas(ingrediente[1]));
 
 				} else {
 					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 							tmp_materia.getCantidad(), ingrediente[1], this.lectorDeRecetas(ingrediente[2]));
 				}
 				res.add(tmp_materia2);
@@ -175,7 +175,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -189,7 +189,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -202,7 +202,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -214,7 +214,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -244,7 +244,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -260,7 +260,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -275,7 +275,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());
@@ -289,7 +289,7 @@ public class MateriaDAOImpl implements MateriaDAO {
 				PreparedStatement statement = conn.prepareStatement(sql);
 				int i = 1;
 				statement.setString(i++, materia.getNombre());
-				statement.setString(i++, materia.getCategoria());
+				statement.setInt(i++, materia.getCategoriaPadre());
 				statement.setString(i++, materia.getTipo());
 				statement.setDouble(i++, materia.getCosto());
 				statement.setDouble(i++, materia.getCantidad());

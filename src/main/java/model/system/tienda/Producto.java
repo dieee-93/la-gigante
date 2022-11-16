@@ -1,34 +1,59 @@
-package model;
+package model.system.tienda;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import model.system.interfaces.Categorizable;
 import model.system.materiaprima.Materia;
 import utils.JavaObjectToJSON.POJO.ProductoPOJO;
+import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
-public class Producto {
+public class Producto implements Categorizable {
 
-	private Integer id;
+	private int id;
 	private String nombre;
 	private String descripcion;
+	private Integer categoriaId;
 	private Double precioDeVenta;
 	private Double costoDeProduccion;
 	private Date fechaDeCreacion;
 	private List<Materia> ingredientes;
 	private HashMap<String, String> errors;
 
-	public Producto(Integer id, String nombre, String descripcion, Double costoDeProduccion, Date fechaDeCreacion,
+	public Producto(Integer id, String nombre, String descripcion, Integer categoriaId, Double costoDeProduccion, Date fechaDeCreacion,
 			List<Materia> ingredientes) {
 		this.id = id;
 		this.nombre = nombre;
+		this.categoriaId = categoriaId;
 		this.descripcion = descripcion;
 		this.costoDeProduccion = costoDeProduccion;
 		this.fechaDeCreacion = fechaDeCreacion;
 		this.ingredientes = ingredientes;
 	}
+	
+	public Integer getCategoriaId() {
+		return categoriaId;
+	}
 
-	public Integer getId() {
+	public void setCategoriaId(Integer categoriaId) {
+		this.categoriaId = categoriaId;
+	}
+
+	public HashMap<String, String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(HashMap<String, String> errors) {
+		this.errors = errors;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public int getId() {
 		return id;
 	}
 
@@ -148,6 +173,27 @@ public class Producto {
 		res.setIngredientes(this.ingredientes);
 		
 		return res;
+	}
+
+
+	@Override
+	public TreeNodesPOJO toTree() {
+
+		TreeNodesPOJO res = new TreeNodesPOJO();
+		
+		String botonMostrarProductoHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end' onClick='mostrarProducto(" + this.getId() + ")'><i class='fa-solid fa-magnifying-glass'></i></button>";
+		String botonEliminarHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end'>"
+				+ "<a href='deleteMateria.do?id=" + this.getId() + "'><i class='fa-solid fa-trash'></i></a>"
+				+ "</button>";
+		res.setText(nombre + botonMostrarProductoHTML);
+		res.setIcon("fa-solid fa-boxes-stacked");;
+		return res;
+		
+	}
+
+	@Override
+	public Integer getCategoriaPadre() {
+		return this.categoriaId;
 	}
 
 }

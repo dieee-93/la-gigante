@@ -6,9 +6,9 @@ public class MateriaContable extends Materia {
 
 
 	
-	public MateriaContable(int id, String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+	public MateriaContable(int id, String nombre, Integer categoriaId, String tipo, Double costo, Double cantidad) {
 
-		super(id, nombre, categoria, tipo, costo, cantidad);
+		super(id, nombre, categoriaId, tipo, costo, cantidad);
 
 
 	}
@@ -30,7 +30,7 @@ public class MateriaContable extends Materia {
 		MateriaPOJO res = new MateriaPOJO();
 		res.setId(this.id);
 		res.setNombre(this.nombre);
-		res.setCategoria(this.categoria);
+		res.setCategoria(this.categoriaId);
 		res.setTipo(this.tipo);
 		res.setCosto(this.costo);
 		res.setCantidad(this.cantidad);

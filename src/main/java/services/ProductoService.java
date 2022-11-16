@@ -3,20 +3,19 @@ package services;
 import java.util.Date;
 import java.util.List;
 
-import model.Producto;
 import model.system.materiaprima.Materia;
+import model.system.tienda.Producto;
 import persistence.commons.DAOFactory;
 
 public class ProductoService {
 
 
 
-	public Producto create(String nombre, String descripcion, Double costoDeProduccion, Date fechaDeCreacion, 
+	public Producto create(String nombre, String descripcion, Integer categoriaId, Double costoDeProduccion, Date fechaDeCreacion, 
 			List<Materia> ingredientes) {
 
-		Producto producto = new Producto(-1, nombre, descripcion, costoDeProduccion, fechaDeCreacion, ingredientes);
+		Producto producto = new Producto(-1, nombre, descripcion, categoriaId, costoDeProduccion, fechaDeCreacion, ingredientes);
 
-		
 		
 			if(producto.isValid()) {
 			DAOFactory.getProductoDAO().insert(producto);
@@ -26,11 +25,12 @@ public class ProductoService {
 		return producto;
 	}
 
-	public Producto update(int id, String nombre, String descripcion, Double costoDeProduccion, List<Materia> ingredientes) {
+	public Producto update(int id, String nombre, String descripcion, Integer categoriaId, Double costoDeProduccion, List<Materia> ingredientes) {
 
 		Producto producto = DAOFactory.getProductoDAO().find(id);
 		producto.setNombre(nombre);
 		producto.setDescripcion(descripcion);
+		producto.setCategoriaId(categoriaId);
 		producto.setCostoDeProduccion(costoDeProduccion);
 		producto.setIngredientes(ingredientes);
 

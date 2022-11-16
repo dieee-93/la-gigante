@@ -11,7 +11,7 @@ public class NullMateria extends Materia {
 	}
 
 	public NullMateria() {
-		 super(0, "", "", "", 0.0, 0.0);
+		 super(0, "", 0, "", 0.0, 0.0);
 	}
 
 	@Override
@@ -21,7 +21,13 @@ public class NullMateria extends Materia {
 
 	@Override
 	public MateriaPOJO toPOJO() {
-		// TODO Auto-generated method stub
+	
+		return null;
+	}
+
+	@Override
+	public Double getPrecioMinimo() {
+
 		return null;
 	}
 

@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.system.stockmanager.Categoria;
 import services.CategoriaService;
 
-@WebServlet("/newCategory.do")
-public class NuevaCategoriaServlet extends HttpServlet {
+@WebServlet("/newProdCategory.do")
+public class NuevaCategoriaProductoServlet extends HttpServlet {
 	private static final long serialVersionUID = 8308079314140233763L;
 
 
@@ -31,13 +31,13 @@ public class NuevaCategoriaServlet extends HttpServlet {
 		String catName = req.getParameter("newcategory-name");
 		Integer fatherCategory = Integer.parseInt(req.getParameter("category-select"));
 		
-		Categoria tmp_cat = categoriaService.create(catName, fatherCategory);
+		Categoria tmp_cat = categoriaService.createCategoriaProducto(catName, fatherCategory);
 
 		if (tmp_cat.isValid()) {
 			//TODO
-			resp.sendRedirect("stock.do");
+			resp.sendRedirect("tienda.do");
 		} else {
-			resp.sendRedirect("stock.do");   
+			resp.sendRedirect("tienda.do");   
 
 	}
 }

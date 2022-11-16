@@ -9,15 +9,15 @@ import java.util.List;
 
 import model.nullobjects.NullCategoria;
 import model.system.stockmanager.Categoria;
-import persistence.CategoriaDAO;
+import persistence.CategoriasProductoDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;
 
-public class CategoriaDAOImpl implements CategoriaDAO {
+public class CategoriasMateriaDAOImpl implements CategoriasProductoDAO {
 
 	public List<Categoria> findAll() {
 		try {
-			String sql = "SELECT * FROM CATEGORIAS";
+			String sql = "SELECT * FROM CATEGORIAS_MATERIA";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
@@ -37,7 +37,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	@Override
 	public Categoria find(Integer id) {
 		try {
-			String sql = "SELECT * FROM CATEGORIAS WHERE ID = ?";
+			String sql = "SELECT * FROM CATEGORIAS_MATERIA WHERE ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);
@@ -62,13 +62,13 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	@Override
 	public int insert(Categoria cat) {
 		try {
-			String sql = "INSERT INTO CATEGORIAS (NOMBRE, CATEGORIA_PADRE) VALUES (?, ?)";
+			String sql = "INSERT INTO CATEGORIAS_MATERIA (NOMBRE, CATEGORIA_PADRE) VALUES (?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
 			statement.setString(i++, cat.getNombre());
-			statement.setInt(i++, cat.getIdCategoriaPadre());
+			statement.setInt(i++, cat.getCategoriaPadre());
 
 			return statement.executeUpdate();
 		} catch (Exception e) {
@@ -82,13 +82,13 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	@Override
 	public int update(Categoria cat) {
 		try {
-			String sql = "UPDATE CATEGORIAS SET NOMBRE = ?, CATEGORIA_PADRE = ?, WHERE ID = ?";
+			String sql = "UPDATE CATEGORIAS_MATERIA SET NOMBRE = ?, CATEGORIA_PADRE = ?, WHERE ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
 			statement.setString(i++, cat.getNombre());
-			statement.setInt(i++, cat.getIdCategoriaPadre());
+			statement.setInt(i++, cat.getCategoriaPadre());
 			statement.setInt(i++, cat.getId());
 
 			int rows = statement.executeUpdate();
@@ -102,7 +102,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	@Override
 	public int delete(Categoria cat) {
 		try {
-			String sql = "DELETE FROM CATEGORIAS WHERE ID = ?";
+			String sql = "DELETE FROM CATEGORIAS_MATERIA WHERE ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -119,7 +119,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	public int countAll() {
 		try {
 
-			String sql = "SELECT COUNT(1) AS TOTAL FROM CATEGORIAS";
+			String sql = "SELECT COUNT(1) AS TOTAL FROM CATEGORIAS_MATERIA";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();

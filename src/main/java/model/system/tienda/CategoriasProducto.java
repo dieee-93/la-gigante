@@ -1,21 +1,19 @@
-package model.system.stockmanager;
+package model.system.tienda;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import model.system.interfaces.Categorizable;
-import model.system.materiaprima.Materia;
+import model.system.stockmanager.Categoria;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
-
-public class CategoriasMateria {
+public class CategoriasProducto {
 
 	private String nombre = "Sin categorizar";
-	private List<Categoria> arbolDeCategoriasList = new LinkedList<>();
-	private List<Categoria> categorias = new LinkedList<>();
-	private List<Materia> materiasPrimas = new LinkedList<>();
-	private static CategoriasMateria categoriaPrincipal = new CategoriasMateria();
+	private List<Categoria> categorias = new LinkedList<Categoria>();
+	private List<Producto> productos = new LinkedList<>();
+	private static CategoriasProducto categoriaPrincipal = new CategoriasProducto();
 
-	public static CategoriasMateria getInstance() {
+	public static CategoriasProducto getInstance() {
 		return categoriaPrincipal;
 	}
 
@@ -35,12 +33,12 @@ public class CategoriasMateria {
 		this.categorias = categorias;
 	}
 
-	public List<Materia> getMateriasPrimas() {
-		return materiasPrimas;
+	public List<Producto> getProductos() {
+		return productos;
 	}
 
-	public void setMateriasPrimas(List<Materia> materiasPrimas) {
-		this.materiasPrimas = materiasPrimas;
+	public void setMateriasPrimas(List<Producto> productos) {
+		this.productos = productos;
 	}
 
 	public List<Categoria> getAllCategorias() {
@@ -65,18 +63,18 @@ public class CategoriasMateria {
 
 	}
 
-	public Materia getMateriaById(Integer id) {
-		Materia m = null;
-		for (Materia cate : this.materiasPrimas) {
+	public Categorizable getMateriaById(Integer id) {
+		Categorizable m = null;
+		for (Categorizable cate : this.productos) {
 			if (cate.getId() == id) {
 				m = cate;
 			}
-			
+			;
 		}
 
 		for (Categoria cat : this.categorias) {
 			if (m == null) {
-				m = (Materia) cat.getContenidoById(id);
+				m = cat.getContenidoById(id);
 			}
 		}
 
@@ -114,12 +112,11 @@ public class CategoriasMateria {
 		return c;
 	}
 
-	public void actualizarCategorias(List<Categoria> categorias, List<Materia> materiaPrima) {
+	public void actualizarCategorias(List<Categoria> categorias, List<Producto> productos) {
 		this.categorias.clear();
-		this.arbolDeCategoriasList.clear();
+
 		for (int i = categorias.size() - 1; i >= 0; i--) {
-			this.arbolDeCategoriasList.add(categorias.get(i));
-			if (categorias.get(i).getCategoriaPadre() == 0)
+			if (categorias.get(i).getCategoriaPadre().equals(0))
 
 			{
 				this.categorias.add(categorias.get(i));
@@ -138,13 +135,13 @@ public class CategoriasMateria {
 			}
 
 		}
-		this.materiasPrimas.clear();
-		for (Categorizable cate : materiaPrima) {
-			if (cate.getCategoriaPadre() == 0) {
+		this.productos.clear();
+		for (Producto prod : productos) {
+			if (prod.getCategoriaPadre() == 0) {
 				
-				this.materiasPrimas.add((Materia) cate);
+				this.productos.add(prod);
 			} else {
-			this.getCategoriaById(cate.getCategoriaPadre()).getContenido().add(cate);
+			this.getCategoriaById(prod.getCategoriaPadre()).getContenido().add(prod);
 			}
 		}
 
@@ -152,9 +149,6 @@ public class CategoriasMateria {
 
 	public List<TreeNodesPOJO> toTree() {
 		List<TreeNodesPOJO> res = new LinkedList<>();
-		for (Categorizable mat : this.materiasPrimas) {
-			res.add(mat.toTree());
-		}
 		for (Categoria cat : this.categorias) {
 			res.add(cat.toTree());
 		}

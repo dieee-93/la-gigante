@@ -24,7 +24,7 @@ public class StockTest {
 	stockService = new StockService();
 	categoria1 =  new Categoria(01, "Quesos", 0);
 	materia1 = null;
-	categoria1.getMateria_prima().add(materia1);
+	categoria1.getContenido().add(materia1);
 	
 	
 	}

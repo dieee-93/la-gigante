@@ -8,7 +8,7 @@
 	<h2>Hello World!</h2>
 	
 	<c:if test="${flash != null }">
-	<c:out value="${flash }"></c:out>
+	<c:out value="${flash}"></c:out>
 	
 	</c:if>
 

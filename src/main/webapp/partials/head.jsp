@@ -4,6 +4,9 @@
 <link rel="shortcut icon" href="">
 
 
+<!--  GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+
 <!--  BOOTSTRAP 5.1.3 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"

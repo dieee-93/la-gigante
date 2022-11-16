@@ -91,22 +91,22 @@ public class StockDAOImpl implements StockDAO {
 		switch (stockRegister.getString(4)) {
 		case ("conmesurable"):
 			materia = new MateriaConmesurable(stockRegister.getInt(1), stockRegister.getString(2),
-					stockRegister.getString(3), stockRegister.getString(4), costoActualizado,
+					stockRegister.getInt(3), stockRegister.getString(4), costoActualizado,
 					stockRegister.getDouble(7), stockRegister.getString(8));
 			break;
 		case ("contable"):
 			materia = new MateriaContable(stockRegister.getInt(1), stockRegister.getString(2),
-					stockRegister.getString(3), stockRegister.getString(4), costoActualizado,
+					stockRegister.getInt(3), stockRegister.getString(4), costoActualizado,
 					stockRegister.getDouble(7));
 			break;
 		case ("elaborada"):
 			if (stockRegister.getString(8) == null) {
 				materia = new MateriaElaborada(stockRegister.getInt(1), stockRegister.getString(2),
-						stockRegister.getString(3), stockRegister.getString(4), costoActualizado,
+						stockRegister.getInt(3), stockRegister.getString(4), costoActualizado,
 						stockRegister.getDouble(7), this.lectorDeRecetas(stockRegister.getString(9)));
 			} else {
 				materia = new MateriaElaborada(stockRegister.getInt(1), stockRegister.getString(2),
-						stockRegister.getString(3), stockRegister.getString(4), costoActualizado,
+						stockRegister.getInt(3), stockRegister.getString(4), costoActualizado,
 						stockRegister.getDouble(7), stockRegister.getString(8),
 						this.lectorDeRecetas(stockRegister.getString(9)));
 			}
@@ -134,13 +134,13 @@ public class StockDAOImpl implements StockDAO {
 
 			case ("conmesurable"):
 				tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+						tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 						Double.parseDouble(ingrediente[1]), ingrediente[2]);
 				res.add(tmp_materia2);
 				break;
 			case ("contable"):
 				tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+						tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 						Double.parseDouble(ingrediente[1]));
 				res.add(tmp_materia2);
 				break;
@@ -148,12 +148,12 @@ public class StockDAOImpl implements StockDAO {
 				// REVISA SI LA MATERIA ELABORADA ES CONMESURABLE O CONTABLE
 				if (tmp_materia.getUnidadDeMedida() == null) {
 					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 							tmp_materia.getCantidad(), this.lectorDeRecetas(ingrediente[1]));
 
 				} else {
 					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
 							tmp_materia.getCantidad(), ingrediente[1], this.lectorDeRecetas(ingrediente[2]));
 				}
 				res.add(tmp_materia2);

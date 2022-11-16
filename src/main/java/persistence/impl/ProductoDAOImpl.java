@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Producto;
 import model.nullobjects.NullProducto;
 import model.system.materiaprima.Materia;
 import model.system.materiaprima.MateriaConmesurable;
 import model.system.materiaprima.MateriaContable;
 import model.system.materiaprima.MateriaElaborada;
+import model.system.tienda.Producto;
 import persistence.ProductoDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.DAOFactory;
@@ -66,9 +66,9 @@ public class ProductoDAOImpl implements ProductoDAO {
 
 
 		
-		return new Producto(productoRegister.getInt(1), productoRegister.getString(2), productoRegister.getString(3),
-				productoRegister.getDouble(4), productoRegister.getDate(5),
-				lectorDeRecetas(productoRegister.getString(6)));
+		return new Producto(productoRegister.getInt(1), productoRegister.getString(2), productoRegister.getString(3), productoRegister.getInt(4),
+				productoRegister.getDouble(5), productoRegister.getDate(6),
+				lectorDeRecetas(productoRegister.getString(7)));
 	}
 
 	@Override
@@ -77,13 +77,14 @@ public class ProductoDAOImpl implements ProductoDAO {
 
 			Date sqlDate = new Date(prod.getFechaDeCreacion().getTime());
 
-			String sql = "INSERT INTO PRODUCTOS (NOMBRE, DESCRIPCION, COSTO_DE_PRODUCCION, FECHA_DE_CREACION, INGREDIENTES) VALUES (?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO PRODUCTOS (NOMBRE, DESCRIPCION, CATEGORIA_ID, COSTO_DE_PRODUCCION, FECHA_DE_CREACION, INGREDIENTES) VALUES (?, ?, ?, ?, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
 			statement.setString(i++, prod.getNombre());
 			statement.setString(i++, prod.getDescripcion());
+			statement.setInt(i++, prod.getCategoriaId());
 			statement.setDouble(i++, prod.getCostoDeProduccion());
 			statement.setDate(i++, sqlDate);
 			statement.setString(i++, prod.getIngredientesTextoPlano());
@@ -98,13 +99,14 @@ public class ProductoDAOImpl implements ProductoDAO {
 	@Override
 	public int update(Producto prod) {
 		try {
-			String sql = "UPDATE PRODUCTOS SET NOMBRE = ?, DESCRIPCION = ?, COSTO_DE_PRODUCCION = ?, INGREDIENTES = ?, WHERE ID = ?";
+			String sql = "UPDATE PRODUCTOS SET NOMBRE = ?, DESCRIPCION = ?, CATEGORIA_ID = ?,COSTO_DE_PRODUCCION = ?, INGREDIENTES = ?, WHERE ID = ?";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int i = 1;
 			statement.setString(i++, prod.getNombre());
 			statement.setString(i++, prod.getDescripcion());
+			statement.setInt(i++, prod.getCategoriaId());
 			statement.setDouble(i++, prod.getCostoDeProduccion());
 			statement.setString(i++, prod.getIngredientesTextoPlano());
 			
@@ -177,47 +179,55 @@ public class ProductoDAOImpl implements ProductoDAO {
 
 	@Override
 	public List<Materia> lectorDeRecetas(String receta) {
+		
+		List<Materia> res = new LinkedList<Materia>();	
+		
+		if(!receta.isEmpty()) {
+			
+			String[] listaDeIngredientes = receta.split("/");
 
-		List<Materia> res = new LinkedList<Materia>();
+			for (int i = 0; i < listaDeIngredientes.length; i++) {
+				String[] ingrediente = listaDeIngredientes[i].split("-");
+				Materia tmp_materia = DAOFactory.getMateriaDAO().find(Integer.parseInt(ingrediente[0]));
+				Materia tmp_materia2;
+				switch (tmp_materia.getTipo()) {
 
-		String[] listaDeIngredientes = receta.split("/");
+				case ("conmesurable"):
+					tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							Double.parseDouble(ingrediente[1]), ingrediente[2]);
+					res.add(tmp_materia2);
+					break;
+				case ("contable"):
+					tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							Double.parseDouble(ingrediente[1]));
+					res.add(tmp_materia2);
+					break;
+				case ("elaborada"):
+					// REVISA SI LA MATERIA ELABORADA ES CONMESURABLE O CONTABLE
+					if (tmp_materia.getUnidadDeMedida() == null) {
+						tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
+								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+								tmp_materia.getCantidad(), this.lectorDeRecetas(ingrediente[1]));
 
-		for (int i = 0; i < listaDeIngredientes.length; i++) {
-			String[] ingrediente = listaDeIngredientes[i].split("-");
-			Materia tmp_materia = DAOFactory.getMateriaDAO().find(Integer.parseInt(ingrediente[0]));
-			Materia tmp_materia2;
-			switch (tmp_materia.getTipo()) {
+					} else {
+						tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
+								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+								tmp_materia.getCantidad(), ingrediente[1], this.lectorDeRecetas(ingrediente[2]));
+					}
+					res.add(tmp_materia2);
+					break;
 
-			case ("conmesurable"):
-				tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
-						Double.parseDouble(ingrediente[1]), ingrediente[2]);
-				res.add(tmp_materia2);
-				break;
-			case ("contable"):
-				tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
-						tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
-						Double.parseDouble(ingrediente[1]));
-				res.add(tmp_materia2);
-				break;
-			case ("elaborada"):
-				// REVISA SI LA MATERIA ELABORADA ES CONMESURABLE O CONTABLE
-				if (tmp_materia.getUnidadDeMedida() == null) {
-					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
-							tmp_materia.getCantidad(), this.lectorDeRecetas(ingrediente[1]));
-
-				} else {
-					tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoria(), tmp_materia.getTipo(), tmp_materia.getCosto(),
-							tmp_materia.getCantidad(), ingrediente[1], this.lectorDeRecetas(ingrediente[2]));
 				}
-				res.add(tmp_materia2);
-				break;
 
 			}
-
+			
 		}
+		
+	
+
+	
 
 		return res;
 	}

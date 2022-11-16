@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.system.materiaprima.Materia;
 import model.system.stockmanager.CategoriasMateria;
-import model.system.stockmanager.Stock;
 import services.CategoriaService;
 import services.MateriaService;
 import services.StockService;
@@ -39,7 +38,7 @@ public class StockServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		CategoriasMateria mainCategory = categoriaService.actualizarCategorias();
+		CategoriasMateria mainCategory = categoriaService.actualizarCategoriasMateria();
 		List<Materia> listaDeMateriaEnStock = stockService.list();
 		List<TreeNodesPOJO> treeNodes = ConvertJSON.getTree(mainCategory);
 		String categoriasJSON = new Gson().toJson(treeNodes);

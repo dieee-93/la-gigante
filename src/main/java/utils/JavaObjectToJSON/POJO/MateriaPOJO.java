@@ -6,7 +6,7 @@ public class MateriaPOJO {
 
 	private Integer id;
 	private String nombre;
-	private String categoria;
+	private Integer categoriaId;
 	private String tipo;
 	private Double costo;
 	private Double cantidad;
@@ -25,19 +25,19 @@ public class MateriaPOJO {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public Integer getCategoria() {
+		return this.categoriaId;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setCategoria(Integer categoriaId) {
+		this.categoriaId = categoriaId;
 	}
 
 	public String getTipo() {

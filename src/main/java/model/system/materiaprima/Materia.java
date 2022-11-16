@@ -3,25 +3,26 @@ package model.system.materiaprima;
 import java.util.HashMap;
 import java.util.List;
 
+import model.system.interfaces.Categorizable;
 import model.system.interfaces.Treeable;
 import utils.JavaObjectToJSON.POJO.MateriaPOJO;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
-public abstract class Materia implements Treeable {
+public abstract class Materia implements Treeable, Categorizable {
 
 	protected int id;
 	protected String nombre;
-	protected String categoria;
+	protected Integer categoriaId;
 	protected String tipo;
 	protected Double costo;
 	protected Double cantidad;
 
 	protected HashMap<String, String> errors;
 
-	protected Materia(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad) {
+	protected Materia(Integer id, String nombre, Integer categoriaId, String tipo, Double costo, Double cantidad) {
 		this.id = id;
 		this.nombre = nombre;
-		this.categoria = categoria;
+		this.categoriaId = categoriaId;
 		this.tipo = tipo;
 		this.costo = costo;
 		this.cantidad = cantidad;
@@ -30,7 +31,8 @@ public abstract class Materia implements Treeable {
 	//METODOS ABSTRACTOS
 	public abstract MateriaPOJO toPOJO();
 	public abstract Double getPrecioMinimo();
-
+	
+	@Override
 	public int getId() {
 		return id;
 	}
@@ -47,12 +49,12 @@ public abstract class Materia implements Treeable {
 		this.nombre = nombre;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public Integer getCategoriaPadre() {
+		return this.categoriaId;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setCategoria(Integer categoria) {
+		this.categoriaId = categoria;
 	}
 
 	public String getTipo() {
@@ -104,7 +106,7 @@ public abstract class Materia implements Treeable {
 		if (nombre.equals("")) {
 			errors.put("nombre", "El nombre no puede estar en blanco");
 		}
-		if (categoria == null) {
+		if (categoriaId == null) {
 			errors.put("categoria", "Categoria invalida");
 		}
 		if (tipo.equals("")) {
@@ -148,9 +150,9 @@ public abstract class Materia implements Treeable {
 				+ "</button>";
 		res.setText(nombre + botonEliminarHTML);
 		res.setIcon("fa-solid fa-boxes-stacked");;
-		res.setNodes();
 		return res;
 	}
+
 	
 	
 }

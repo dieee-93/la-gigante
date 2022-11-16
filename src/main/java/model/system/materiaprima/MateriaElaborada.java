@@ -10,14 +10,14 @@ public class MateriaElaborada extends Materia {
 	private List<Materia> receta = new LinkedList<Materia>();
 	private String unidadDeMedida;
 
-	public MateriaElaborada(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public MateriaElaborada(Integer id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			List<Materia> receta) {
 		super(id, nombre, categoria, tipo, costo, cantidad);
 		this.receta = receta;
 
 	}
 
-	public MateriaElaborada(Integer id, String nombre, String categoria, String tipo, Double costo, Double cantidad,
+	public MateriaElaborada(Integer id, String nombre, Integer categoria, String tipo, Double costo, Double cantidad,
 			String unidadDeMedida, List<Materia> receta) {
 
 		super(id, nombre, categoria, tipo, costo, cantidad);
@@ -85,7 +85,7 @@ public class MateriaElaborada extends Materia {
 		MateriaPOJO res = new MateriaPOJO();
 		res.setId(this.id);
 		res.setNombre(this.nombre);
-		res.setCategoria(this.categoria);
+		res.setCategoria(this.categoriaId);
 		res.setTipo(this.tipo);
 		res.setCosto(this.costo);
 		res.setCantidad(this.cantidad);

@@ -1,0 +1,82 @@
+#producto-show-div {
+	overflow:hidden;
+	display:flex;
+	flex-flow: row nowrap;
+		
+}
+
+.search-icon {
+	padding: 8px;
+    color: #ffff;
+    opacity: 39%;
+    border-radius: 150px 0px 0px 150px;
+    -webkit-border-radius: 150px 0px 0px 150px;
+    -moz-border-radius: 150px 0px 0px 150px;
+    background: rgba(21,140,186,0);
+    border: 3px solid rgba(255,255,255,0.96);
+    border-right: 0px;
+}
+
+.btn-round {
+	border-radius: 200px;
+	
+}
+
+.list-group-item {
+	background:rgba(21,140,186,0);
+
+}
+
+#treeview {
+	background:rgba(21,140,186,0);
+	border:0px;
+	height:500px;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+#treeview .list-group-item{
+		color:#ffff;
+		opacity:50%;
+}
+
+#treeview .list-group-item:hover{
+		color:#ffff;
+		opacity:50%;
+		background:rgba(21,140,186,0);
+}
+
+
+
+.input-lefticon {
+	background:rgba(21,140,186,0);
+    color: #ffff;
+    opacity: 39%;
+    border-radius: 0px 150px 150px 0px;
+    -webkit-border-radius: 0px 150px 150px 0px;
+    -moz-border-radius: 0px 150px 150px 0px;
+    background: rgba(21,140,186,0);
+    border: 3px solid rgba(255,255,255,0.96);
+    border-left: 0px;
+}
+
+.input-lefticon:focus {
+	
+	background:rgba(21,140,186,0);
+    color: #ffff;
+    opacity: 39%;
+    border-radius: 0px 150px 150px 0px;
+    -webkit-border-radius: 0px 150px 150px 0px;
+    -moz-border-radius: 0px 150px 150px 0px;
+    background: rgba(21,140,186,0);
+    border: 3px solid rgba(255,255,255,0.96);
+    border-left: 0px;
+    box-shadow:0px;
+	
+}
+
+.switchable > div {
+	display:none;
+}
+
+

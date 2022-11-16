@@ -1,11 +1,12 @@
 package persistence.commons;
 
-import persistence.CategoriaDAO;
+import persistence.CategoriasProductoDAO;
 import persistence.MateriaDAO;
 import persistence.ProductoDAO;
 import persistence.StockDAO;
 import persistence.UsuarioDAO;
-import persistence.impl.CategoriaDAOImpl;
+import persistence.impl.CategoriasMateriaDAOImpl;
+import persistence.impl.CategoriasProductoDAOImpl;
 import persistence.impl.MateriaDAOImpl;
 import persistence.impl.ProductoDAOImpl;
 import persistence.impl.StockDAOImpl;
@@ -28,8 +29,11 @@ public class DAOFactory {
 	public static MateriaDAO getMateriaDAO() {
 		return new MateriaDAOImpl();
 	}
-	public static CategoriaDAO getCategoriaDAO() {
-		return new CategoriaDAOImpl();
+	public static CategoriasProductoDAO getCategoriasMateriaDAO() {
+		return new CategoriasMateriaDAOImpl();
+	}
+	public static CategoriasProductoDAO getCategoriasProductoDAO() {
+		return new CategoriasProductoDAOImpl();
 	}
 	public static ProductoDAO getProductoDAO() {
 		return new ProductoDAOImpl();

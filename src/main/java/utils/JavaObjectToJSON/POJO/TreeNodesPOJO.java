@@ -1,6 +1,5 @@
 package utils.JavaObjectToJSON.POJO;
 
-import java.util.LinkedList;
 import java.util.List;
 
 //Creating MobilePhone class  
@@ -9,7 +8,7 @@ public class TreeNodesPOJO {
     private String text;    
     private String icon;    
     private boolean expanded;  
-    private List<TreeNodesPOJO> nodes = new LinkedList<TreeNodesPOJO>();
+    private List<TreeNodesPOJO> nodes = null;
     //Setter and Getters  
 	public String getText() {
 		return text;
@@ -33,7 +32,7 @@ public class TreeNodesPOJO {
 		return nodes;
 	}
 	public void setNodes(List<TreeNodesPOJO> nodes) {
-		this.nodes.addAll(nodes);
+		this.nodes = nodes;
 	}
 	
 	public void setNodes() {
