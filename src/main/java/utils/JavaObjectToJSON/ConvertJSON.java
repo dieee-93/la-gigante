@@ -3,10 +3,12 @@ package utils.JavaObjectToJSON;
 import java.util.LinkedList;
 import java.util.List;
 
+import model.system.Categoria;
+import model.system.materiaprima.CategoriasMateria;
 import model.system.materiaprima.Materia;
-import model.system.stockmanager.CategoriasMateria;
 import model.system.tienda.CategoriasProducto;
 import model.system.tienda.Producto;
+import utils.JavaObjectToJSON.POJO.CategoriaPOJO;
 import utils.JavaObjectToJSON.POJO.MateriaPOJO;
 import utils.JavaObjectToJSON.POJO.ProductoPOJO;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
@@ -45,7 +47,20 @@ public final class ConvertJSON {
 	public static List<TreeNodesPOJO> getProductoTree(CategoriasProducto categorias){
 		
 		return categorias.toTree();
+	
+	}
+	
+	public static List<CategoriaPOJO> categoriasToPOJO(List<Categoria> categorias){
+		
+		List<CategoriaPOJO> res = new LinkedList<>();
+		
+		for (Categoria cat : categorias) {
+			res.add(cat.toPOJO());
+		}
+		return res;
+	}
+		
+		
 	}
 	
 
-}

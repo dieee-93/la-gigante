@@ -1,20 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap')
+	;
+
+:root {
+	--primary-bg-color:#222831;
+	--secondary-bg-color:#393E46;
+	
+	--input-bg-color:#343a40;
+	--button-bg-color:#117a8b;
+	
+	--primary-color: #EEEEEE;
+	--secondary-color: #00ADB5;
+}
+
 
 body {
-	background: hsla(211, 53%, 11%, 1);
-	background: linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
-		hsla(289, 52%, 11%, 1) 81%);
-	background: -moz-linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
-		hsla(289, 52%, 11%, 1) 81%);
-	background: -webkit-linear-gradient(90deg, hsla(211, 53%, 11%, 1) 0%,
-		hsla(289, 52%, 11%, 1) 81%);
-	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0D1B2A",
-		endColorstr="#240D29", GradientType=1);
+	font-family: 'Source Sans Pro', sans-serif !important;
+	font-size:18px !important;
+	background: var(--primary-bg-color) !important;
 	height: 100%;
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	color: var(--primary-color);
+	
 }
+
 
 nav {
 	background-color: #4C5454 !important;
@@ -24,18 +35,63 @@ nav {
 h1, h2, h3, h4, h5, h6, p {
 	margin: 5px;
 	padding: 5px;
-	color:#ffffff!important;
-	font-family: 'Source Sans Pro', sans-serif;
+	color: #ffffff !important;
 
 }
 
+.modal-content {
+	background-color: var(--secondary-bg-color)!important;
+}
+
 .box {
-	background: rgba(20, 23, 43, 0.5);
-	border: 2px inset #6f32ab;
+	background-color: var(--secondary-bg-color);
+	border: 1px inset var(--secondary-color);
 	border-radius: 10px;
 	margin-top: 8px;
 	margin-bottom: 8px;
+}
+
+
+.btn {
+	color:var(--primary-color) !important;
+	background-color:var(--button-bg-color)!important;
+	border-color:var(--secondary-color) !important;
+	transition:0.7s background-color ease 0.1s !important;
+
+}
+
+.btn:hover{
+	background-color:var(--primary-bg-color) !important;
 	
+}
+
+
+.st-input {
+	background-color: var(--input-bg-color) !important;
+	color: var(--primary-color) !important;
+	border-color: var(--secondary-color) !important;
+	transition: 1s background-color ease 0.1s !important;
+}
+
+.st-input::placeholder {
+	color: var(--primary-color) !important;
+}
+
+.st-input:hover{
+	background-color: var(--primary-bg-color) !important;
+}
+
+.title-icon {
+	width: 60px;
+	height: auto;
+	color: #CC9200;
+}
+
+.title-text{
+	
+	text-align:center;
+	margin-top:5px;
+
 }
 
 .page-description {

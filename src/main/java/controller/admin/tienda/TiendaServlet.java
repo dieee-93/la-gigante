@@ -18,6 +18,7 @@ import services.CategoriaService;
 import services.MateriaService;
 import services.ProductoService;
 import utils.JavaObjectToJSON.ConvertJSON;
+import utils.JavaObjectToJSON.POJO.CategoriaPOJO;
 import utils.JavaObjectToJSON.POJO.MateriaPOJO;
 import utils.JavaObjectToJSON.POJO.ProductoPOJO;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
@@ -56,16 +57,20 @@ public class TiendaServlet extends HttpServlet {
 		List<TreeNodesPOJO> treeNodes = ConvertJSON.getProductoTree(mainCategory);
 		List<ProductoPOJO> productosPOJO = ConvertJSON.getProductos(productos);
 		List<MateriaPOJO> materiasPOJO = ConvertJSON.getMateria(listaDeMateria);
+		List<CategoriaPOJO> categoriasMateriaPOJO = ConvertJSON.categoriasToPOJO(categoriaService.actualizarCategoriasMateria().getAllCategorias());
 		
-		String categoriasProducto = new Gson().toJson(treeNodes);
+		String categoriasProductoJSON = new Gson().toJson(treeNodes);
+		String categoriasMateriaJSON = new Gson().toJson(categoriasMateriaPOJO);
 		String productosJSON = new Gson().toJson(productosPOJO);
 		String materiasJSON = new Gson().toJson(materiasPOJO);
 		
 		req.setAttribute("mainCategory", mainCategory);
-		req.setAttribute("categoriasProducto", categoriasProducto);
 		req.setAttribute("productos", productos);
-		req.setAttribute("productosJSON", productosJSON);
 		req.setAttribute("listaDeMateria", listaDeMateria);
+		
+		req.setAttribute("categoriasProducto", categoriasProductoJSON);
+		req.setAttribute("categoriasMateria", categoriasMateriaJSON);
+		req.setAttribute("productosJSON", productosJSON);
 		req.setAttribute("materiasJSON", materiasJSON);
 		
 		

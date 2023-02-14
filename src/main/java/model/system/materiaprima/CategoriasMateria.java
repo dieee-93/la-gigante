@@ -1,10 +1,10 @@
-package model.system.stockmanager;
+package model.system.materiaprima;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import model.system.Categoria;
 import model.system.interfaces.Categorizable;
-import model.system.materiaprima.Materia;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
 public class CategoriasMateria {

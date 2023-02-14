@@ -37,7 +37,7 @@
 
 #treeview .list-group-item{
 		color:#ffff;
-		opacity:50%;
+		opacity:90%;
 }
 
 #treeview .list-group-item:hover{
@@ -77,6 +77,21 @@
 
 .switchable > div {
 	display:none;
+	
+}
+
+.ingrediente-list {
+	overflow-y:auto;
+	height:100%;
+	list-style:none;
+	padding: 0px;
+}
+
+
+.ingrediente-listItem div {
+	display:flex;
+	justify-content:center;
+	width:100%
 }
 
 

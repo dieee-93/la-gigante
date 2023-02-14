@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import model.system.materiaprima.CategoriasMateria;
 import model.system.materiaprima.Materia;
 
 public class Stock {

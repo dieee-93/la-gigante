@@ -189,18 +189,19 @@ public class ProductoDAOImpl implements ProductoDAO {
 			for (int i = 0; i < listaDeIngredientes.length; i++) {
 				String[] ingrediente = listaDeIngredientes[i].split("-");
 				Materia tmp_materia = DAOFactory.getMateriaDAO().find(Integer.parseInt(ingrediente[0]));
+				Double costoIngrediente = (Double.parseDouble(ingrediente[1]) * tmp_materia.getPrecioMinimo());
 				Materia tmp_materia2;
 				switch (tmp_materia.getTipo()) {
 
 				case ("conmesurable"):
 					tmp_materia2 = new MateriaConmesurable(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), costoIngrediente,
 							Double.parseDouble(ingrediente[1]), ingrediente[2]);
 					res.add(tmp_materia2);
 					break;
 				case ("contable"):
 					tmp_materia2 = new MateriaContable(tmp_materia.getId(), tmp_materia.getNombre(),
-							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+							tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), costoIngrediente,
 							Double.parseDouble(ingrediente[1]));
 					res.add(tmp_materia2);
 					break;
@@ -208,12 +209,12 @@ public class ProductoDAOImpl implements ProductoDAO {
 					// REVISA SI LA MATERIA ELABORADA ES CONMESURABLE O CONTABLE
 					if (tmp_materia.getUnidadDeMedida() == null) {
 						tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), costoIngrediente,
 								tmp_materia.getCantidad(), this.lectorDeRecetas(ingrediente[1]));
 
 					} else {
 						tmp_materia2 = new MateriaElaborada(tmp_materia.getId(), tmp_materia.getNombre(),
-								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), tmp_materia.getCosto(),
+								tmp_materia.getCategoriaPadre(), tmp_materia.getTipo(), costoIngrediente,
 								tmp_materia.getCantidad(), ingrediente[1], this.lectorDeRecetas(ingrediente[2]));
 					}
 					res.add(tmp_materia2);

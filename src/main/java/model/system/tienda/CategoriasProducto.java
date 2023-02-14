@@ -3,8 +3,8 @@ package model.system.tienda;
 import java.util.LinkedList;
 import java.util.List;
 
+import model.system.Categoria;
 import model.system.interfaces.Categorizable;
-import model.system.stockmanager.Categoria;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 public class CategoriasProducto {
 

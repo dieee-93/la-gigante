@@ -1,5 +1,5 @@
 :root {
-  --surface-color: #fff;
+  --surface-color: #400040;
   --curve: 40;
 }
 
@@ -7,14 +7,10 @@
   box-sizing: border-box;
 }
 
-body {
-
-  background-color: #fef8f8;
-}
 
 .cards-prod {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
   margin: 4rem 5vw;
   padding: 0;
@@ -42,7 +38,7 @@ body {
   right: 0;
   z-index: 1;      
   border-radius: calc(var(--curve) * 1px);    
-  background-color: var(--surface-color);      
+  background-color: var(--primary-bg-color);      
   transform: translateY(100%);
   transition: .2s ease-in-out;
 }
@@ -58,7 +54,7 @@ body {
   gap: 2em;
   padding: 2em;
   border-radius: calc(var(--curve) * 1px) 0 0 0;    
-  background-color: var(--surface-color);
+  background-color: var(--primary-bg-color);
   transform: translateY(-100%);
   transition: .2s ease-in-out;
 }
@@ -73,7 +69,7 @@ body {
 }
 
 .card__arc path {
-  fill: var(--surface-color);
+  fill: var(--primary-bg-color);
   d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
 }       
 

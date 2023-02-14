@@ -2,8 +2,8 @@ package services;
 
 import java.util.List;
 
-import model.system.stockmanager.Categoria;
-import model.system.stockmanager.CategoriasMateria;
+import model.system.Categoria;
+import model.system.materiaprima.CategoriasMateria;
 import model.system.tienda.CategoriasProducto;
 import persistence.commons.DAOFactory;
 

@@ -22,9 +22,12 @@
 	let erasmo = ${productosJSON};
 	let materia = ${materiasJSON};
 	let cate = ${categoriasProducto};
+	let categoriasMateria = ${categoriasMateria};
+	
 	function getTree() {
 
-		var data = ${categoriasProducto};
+	var data = ${categoriasProducto}
+		;
 		if (data.length == 0) {
 			data = [ {
 				text : 'No existen categorias aún <button type="button" class="btn btn-success float-end" id="newCategoryForm-btn"><i class="fa-solid fa-plus"></i></button>',
@@ -67,22 +70,29 @@
 
 
 		<div class="row d-flex justify-content-center">
-			<div class="page-title col-10 box">
-				<h2>Bienvenido a la tienda!</h2>
+			<div class="page-title col-10 d-flex flex-column align-items-end ">
+				
+				<div class="d-flex flex-row align-items-end justify-content-center">
+				<h1 class="title-text">Tienda</h1>
+				<img alt="Logo de la tienda" src="/lagigante/assets/img/icon/tienda-icon-orange.png" class="title-icon">
+				
+				
+				</div>
+				
 
-				<p>Aqui podras gestionar todos tus productos y crear promociones
+				<p>Gestiona tus productos y crea promociones
 				</p>
 			</div>
 			<div class="page-content col-10 px-0 box">
 				<ul class="nav nav-pills nav-fill justify-content-center"
 					id="tiendaTab" role="tablist">
 					<li class="nav-item" role="presentation">
-						<button class="nav-link active" id="producto-tab"
+						<button class="nav-link active btn-info" id="producto-tab"
 							data-bs-toggle="tab" data-bs-target="#producto-div" type="button"
 							role="tab" aria-controls="producto" aria-selected="true">Productos</button>
 					</li>
 					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="promocion-tab" data-bs-toggle="tab"
+						<button class="nav-link btn-info" id="promocion-tab" data-bs-toggle="tab"
 							data-bs-target="#promocion-div" type="button" role="tab"
 							aria-controls="promocion" aria-selected="false">Promociones</button>
 					</li>
@@ -119,32 +129,57 @@
 
 
 								<div class="row px-0 mx-2">
-								<div class="col-12"><div class="d-flex justify-content-around my-2">
+									<div class="col-12">
+										<div class="d-flex justify-content-around my-2">
 											<div class="col-4 d-flex justify-content-around">
-												<button class="btn btn-outline-primary btn-round btn-lg" type="button"
-													name="nuevoProductoBtn">
+												<button class="btn btn-outline-primary"
+													type="button" name="nuevoProductoBtn">
 													<i class="fa-solid fa-burger"></i> Nuevo Producto
 												</button>
-												<button class="btn btn-outline-primary btn-round btn-lg" type="button"
-													name="nuevaCategoriaBtn"
+												<button class="btn btn-outline-primary"
+													type="button" name="nuevaCategoriaBtn"
 													onclick="mostrarFormulario('newCategory-form')">
 													<i class="fa-solid fa-folder"></i> Nueva Categoria
 												</button>
 											</div>
 											<div class="col-8 d-flex align-items-center">
-												<i class="fa-solid fa-magnifying-glass"></i>
-												<input type="text" class="form-control input-lefticon mb-0"
-													placeholder="Ingresa nombre" name="buscador-de-producto" />
+													<select class="selectpicker w-100" data-style="btn-dark"
+								title="Buscador" data-live-search="true"
+								id="buscadorProductos">
+								<c:if test="${!listaDeMateria.isEmpty()}">
+									<optgroup label="Categorias">
+										<c:forEach items="${mainCategory.getAllCategorias()}" var="cat">
+											<option value="${cat.id}">${cat.nombre}</option>
+										</c:forEach>
+									</optgroup>
+								</c:if>
+								<c:if test="${!productos.isEmpty()}">
+									<optgroup label="Productos">
+										<c:forEach items="${productos}" var="prod">
+											<option value="${prod.id}">${prod.nombre}</option>
+										</c:forEach>
+									</optgroup>
+
+								</c:if>
+
+
+
+							</select>
+
 											</div>
-										</div></div>
+										</div>
+									</div>
 									<div class="col-4 px-0 mx-0" id="producto-action-div">
 
 										<form action="newProdCategory.do" method="post"
 											id="newCategory-form" style="display: none;">
 											<jsp:include page="/views/admin/stock/form/newCategory.jsp"></jsp:include>
-											
-											<div class="my-2 mx-3 d-flex justify-content-end align-items-center form-action">
-												<button type="submit" class="btn btn-outline-success btn-lg"><i class="fa-solid fa-check"></i></button>
+
+											<div
+												class="my-2 mx-3 d-flex justify-content-end align-items-center form-action">
+												<button type="submit" class="btn btn-outline-success btn-lg">
+													<i class="fa-solid fa-check"></i>
+												</button>
 											</div>
 
 
@@ -165,16 +200,24 @@
 
 											<form class="form" action="newProducto.do" method="post"
 												id="newProducto-form">
-												<div class="my-3 d-flex align-items-center justify-content-end"><button type="button" class="btn btn-outline-primary"
-													name="newProductoForm-exit-btn">
-													<i class="fa-solid fa-x"></i>
-												</button></div>
+												<div
+													class="my-4 mx-3 d-flex align-items-center justify-content-end">
 												
+														<i class="fa-solid fa-x st-input"></i>
+										
+												</div>
+
 												<jsp:include
 													page="/views/admin/tienda/producto/form/newProducto.jsp"></jsp:include>
-
-												<button type="submit" class="btn btn-danger">Crear
+												
+												<div
+													class="my-4 mx-3 d-flex align-items-center justify-content-end">
+												
+														<button type="submit" class="btn btn-danger">Crear
 													Producto</button>
+										
+												</div>
+												
 
 
 
@@ -183,48 +226,49 @@
 										</div>
 
 										<div id="productoCards" class="switchable">
-										
-												<c:if test="${!mainCategory.getAllCategorias().isEmpty()}">
-												
-												<c:forEach items="${mainCategory.getAllCategorias()}" var="cat">
-												
-												
-												
-												<ul id="cat-${cat.id}" class="cards-prod">
-												
-  
-												<c:if test="${!cat.contenido.isEmpty()}">
+
+											<c:if test="${!mainCategory.getAllCategorias().isEmpty()}">
+
+												<c:forEach items="${mainCategory.getAllCategorias()}"
+													var="cat">
+													
+													<h1>${cat.nombre}
+											</h1>
+													
+													<ul id="cat-${cat.id}" class="cards-prod">
+
+
+														<c:if test="${!cat.contenido.isEmpty()}">
 															<c:forEach items="${cat.contenido}" var="prod">
-												
-			<li>
-			<a href="" class="card-prod">
-      <img src="assets/img/pizza.JPG" class="card__image" alt="" />
-      <div class="card__overlay">
-        <div class="card__header">
-          <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-          <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-          <div class="card__header-text">
-            <h3 class="card__title">${prod.nombre}</h3>            
-            <span class="card__status">Creado el ${prod.fechaDeCreacion}</span>
-          </div>
-        </div>
-        <p class="card__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, blanditiis?</p>
-      </div>
-    </a>      
-  </li>
-														</c:forEach>
-												</c:if>
-									
-														
-												</ul>
+
+																<li><a href="" class="card-prod"> <img
+																		src="assets/img/pizza.JPG" class="card__image" alt="" />
+																		<div class="card__overlay">
+																			<div class="card__header">
+																				<div class="card__header-text">
+																					<h3 class="card__title">${prod.nombre}</h3>
+																					<span class="card__status">Creado el
+																						${prod.fechaDeCreacion}</span>
+																				</div>
+																			</div>
+																			<p class="card__description">Lorem ipsum dolor
+																				sit amet consectetur adipisicing elit. Asperiores,
+																				blanditiis?</p>
+																		</div>
+																</a></li>
+															</c:forEach>
+														</c:if>
+
+
+													</ul>
 												</c:forEach>
-									
-												
-												
-												
-												</c:if>
-												
-										
+
+
+
+
+											</c:if>
+
+
 										</div>
 
 
@@ -247,7 +291,7 @@
 			</div>
 
 		</div>
-
+<jsp:include page="producto/form/agregarIngredienteModal.jsp"></jsp:include>
 
 
 	</main>

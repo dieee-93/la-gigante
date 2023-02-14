@@ -29,7 +29,7 @@ public abstract class Materia implements Treeable, Categorizable {
 	}
 	
 	//METODOS ABSTRACTOS
-	public abstract MateriaPOJO toPOJO();
+	public abstract MateriaPOJO toPOJO();//TO DO
 	public abstract Double getPrecioMinimo();
 	
 	@Override
@@ -153,6 +153,6 @@ public abstract class Materia implements Treeable, Categorizable {
 		return res;
 	}
 
-	
+
 	
 }

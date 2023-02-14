@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
-
-
 <div class="container my-1 g-0 mt-4 mb-0" id="materiaInfo-form">
 
 	<div class="row">

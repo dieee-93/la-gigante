@@ -1,4 +1,4 @@
-package model.system.stockmanager;
+package model.system;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,6 +7,7 @@ import java.util.List;
 import model.nullobjects.NullCategoria;
 import model.system.interfaces.Categorizable;
 import model.system.interfaces.Treeable;
+import utils.JavaObjectToJSON.POJO.CategoriaPOJO;
 import utils.JavaObjectToJSON.POJO.TreeNodesPOJO;
 
 public class Categoria implements Categorizable, Treeable {
@@ -182,13 +183,13 @@ public class Categoria implements Categorizable, Treeable {
 
 		TreeNodesPOJO res = new TreeNodesPOJO();
 
-		String botonMostrarCategoriaHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end' onClick='mostrarCategoria(" + this.getId() + ")'><i class='fa-solid fa-magnifying-glass'></i></button>";
+		String botonMostrarCategoriaHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end' onClick='mostrarCategoria("
+				+ this.getId() + ")'><i class='fa-solid fa-magnifying-glass'></i></button>";
 		String botonEliminarHTML = "<button type='button' class='btn btn-sm btn-outline-info float-end'>"
 				+ "<a href='deleteMateria.do?id=" + this.getId() + "'><i class='fa-solid fa-trash'></i></a>"
 				+ "</button>";
 		res.setText(nombre + botonMostrarCategoriaHTML);
 		res.setIcon("fa fa-folder");
-		
 
 		if (!this.subCategorias.isEmpty()) {
 			List<TreeNodesPOJO> tmpList = new LinkedList<>();
@@ -197,23 +198,29 @@ public class Categoria implements Categorizable, Treeable {
 				tmpList.add(cat.toTree());
 
 			}
-			
+
 			res.setNodes(tmpList);
-		
+
 		}
-		
-		if(!this.contenido.isEmpty()) {
+
+		if (!this.contenido.isEmpty()) {
 			List<TreeNodesPOJO> tmpList = new LinkedList<>();
-			for(Categorizable cate : this.contenido) {
+			for (Categorizable cate : this.contenido) {
 				tmpList.add(cate.toTree());
 			}
-	
-			res.setNodes(tmpList);
-			
-		}
-		
 
-	
+			res.setNodes(tmpList);
+
+		}
+
+		return res;
+	}
+
+	public CategoriaPOJO toPOJO() {
+		CategoriaPOJO res = new CategoriaPOJO();
+		res.setId(this.id);
+		res.setNombre(this.nombre);
+		res.setIdCategoriaPadre(this.idCategoriaPadre);
 		
 		return res;
 	}

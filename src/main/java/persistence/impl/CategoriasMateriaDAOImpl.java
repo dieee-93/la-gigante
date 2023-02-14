@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.nullobjects.NullCategoria;
-import model.system.stockmanager.Categoria;
+import model.system.Categoria;
 import persistence.CategoriasProductoDAO;
 import persistence.commons.ConnectionProvider;
 import persistence.commons.MissingDataException;

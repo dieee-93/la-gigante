@@ -1,6 +1,6 @@
 package model.nullobjects;
 
-import model.system.stockmanager.Categoria;
+import model.system.Categoria;
 
 public class NullCategoria extends Categoria {
 
